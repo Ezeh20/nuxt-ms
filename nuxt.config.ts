@@ -20,6 +20,8 @@ export default defineNuxtConfig({
     families: {
       Roboto: true,
       'Inter': [300, 400, 600, 700, 800],
+      'Merriweather': [300, 400, 600, 700, 800],
+      'Montserrat': [300, 400, 600, 700, 800],
     },
     display: 'swap',
     prefetch: true,

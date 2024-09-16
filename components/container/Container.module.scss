@@ -1,0 +1,12 @@
+.main {
+    margin-inline: 0px;
+    max-width: 1920px;
+    background-color: green;
+}
+
+
+@media screen and (min-width: 1940px) {
+    .main {
+        margin-inline: auto;
+    }
+}

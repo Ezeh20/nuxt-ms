@@ -1,6 +1,6 @@
 <template>
     <div class=" bg-custom-blue text-[#d85b01]">
-        <h1>Hello World</h1>
+        <h1 class=" text-5xl font-alt-font">Hello World</h1>
     </div>
 </template>
 

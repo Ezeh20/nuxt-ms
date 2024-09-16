@@ -1,3 +1,32 @@
 .main{
-    background-color: red;
+    position: relative;
+    overflow: hidden;
+    border-right: none;
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 1px;
+        height: 200%;
+        background: linear-gradient(
+            to bottom,
+            #e84e01 0%,
+            #e84e01 50%,
+            #eee 10%,
+            #eee 100%
+        );
+        animation: borderLight 50s linear infinite;
+        border-radius: 0 20px 20px 0;
+    }
+
+    @keyframes borderLight {
+        0%, 100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-50%);
+        }
+    }
 }

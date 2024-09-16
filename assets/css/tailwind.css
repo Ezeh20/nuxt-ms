@@ -4,5 +4,5 @@
 
 
 body {
-    @apply bg-background-color text-text-color;
+    @apply bg-background-color text-text-color font-3rd-font;
 }

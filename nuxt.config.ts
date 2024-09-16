@@ -5,7 +5,8 @@ export default defineNuxtConfig({
   modules: [
     '@pinia/nuxt',
     '@nuxtjs/tailwindcss',
-    '@nuxtjs/google-fonts'
+    '@nuxtjs/google-fonts',
+    '@nuxt/icon',
   ],
   tailwindcss:{
     cssPath:"~/assets/css/tailwind.css",
@@ -26,5 +27,10 @@ export default defineNuxtConfig({
     display: 'swap',
     prefetch: true,
     preload: true,
+  },
+  icon: {
+    size: '18px',
+    class: 'icon',
+    mode:"css"
   },
 })

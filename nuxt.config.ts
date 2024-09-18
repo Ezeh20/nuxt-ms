@@ -22,7 +22,7 @@ export default defineNuxtConfig({
       Roboto: true,
       'Inter': [300, 400, 600, 700, 800],
       'Merriweather': [300, 400, 600, 700, 800],
-      'Montserrat': [300, 400, 600, 700, 800],
+      'Montserrat': [300, 400, 600, 700, 800]
     },
     display: 'swap',
     prefetch: true,
@@ -33,4 +33,8 @@ export default defineNuxtConfig({
     class: 'icon',
     mode:"css"
   },
+  runtimeConfig:{
+    SP_CLIENT_ID:process.env.SP_CLIENT_ID,
+    SP_CLIENT_SECRET:process.env.SP_CLIENT_SECRET,
+  }
 })

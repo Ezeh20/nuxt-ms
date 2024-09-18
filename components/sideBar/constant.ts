@@ -1,5 +1,9 @@
 export const sideBarItems = {
     menu: [
+{
+    id:1,
+    title:"",
+    links:[
         {
             name: 'Feed',
             icon: 'play-box',
@@ -10,9 +14,12 @@ export const sideBarItems = {
             icon: 'compass',
             path: '/explore',
         },
-    ],
-    
-    activity: [
+    ]
+},
+{
+    id:2,
+    title:"Activity",
+    links:[
         {
             name: 'Favorites',
             icon: 'heart',
@@ -23,5 +30,7 @@ export const sideBarItems = {
             icon: 'history',
             path: '/history',
         },
+    ]
+}
     ],
 }

@@ -14,7 +14,7 @@ module.exports = {
           'primary-color': '#e84e01',
           'secondary-color': '#7654321',
           'text-color': '#C8C8C8',
-          'background-color': '#02120C',
+          'background-color': '#121212',
         },
         fontSize: {
             'xs': '0.75rem',    // 12px
@@ -31,8 +31,11 @@ module.exports = {
             'base-font': ['Inter', 'sans-serif'],
             'alt-font': ['Merriweather', 'serif'],
             '3rd-font': ['Montserrat', 'sans-serif'],
+            '4th-font': ['Mingzat', 'sans-serif'],
         },
       },
     },
     plugins: [],
   }
+
+  // #ffa101

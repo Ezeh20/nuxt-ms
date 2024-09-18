@@ -1,9 +1,12 @@
-<template>
-    <div class=" bg-custom-blue text-[#e84e01]">
-        <h1 class=" text-5xl font-alt-font">Hello World</h1>
-    </div>
-</template>
-
 <script setup>
-
+import Hero from '~/components/homePage/Hero/Hero.vue';
 </script>
+
+
+
+
+<template>
+    <main>
+        <Hero />
+    </main>
+</template>

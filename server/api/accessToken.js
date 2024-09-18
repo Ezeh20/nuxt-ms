@@ -5,8 +5,6 @@ export default defineEventHandler(async () => {
 	const { SP_CLIENT_ID, SP_CLIENT_SECRET } = useRuntimeConfig();
 	const authHeader = Buffer.from(`${SP_CLIENT_ID}:${SP_CLIENT_SECRET}`).toString("base64");
 	const currentTime = Date.now();
-
-	//return the cached token if it is not expired
 	if (cachedToken && tokenExpiration && currentTime < tokenExpiration) {
 		return {
 			statusCode: 200,
@@ -28,10 +26,9 @@ export default defineEventHandler(async () => {
 		const data = await response.json();
 		cachedToken = data.access_token;
 		tokenExpiration = currentTime + data.expires_in * 1000;
-
 		return {
 			statusCode: 200,
-			token: data?.access_token,
+			token: data.access_token,
 		};
 	} catch (error) {
 		throw createError({

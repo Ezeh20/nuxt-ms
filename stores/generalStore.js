@@ -13,6 +13,16 @@ export const useGeneralStore = defineStore("general", {
 			error: false,
 			data: [],
 		},
+		albums: {
+			loading: false,
+			error: false,
+			data: [],
+		},
+		shows: {
+			loading: false,
+			error: false,
+			data: [],
+		},
 	}),
 
 	actions: {
@@ -40,7 +50,7 @@ export const useGeneralStore = defineStore("general", {
 			this.episodes.error = false;
 			try {
 				const res = await getRequest(
-					"episodes?ids=4Yl5wPg5PC359M8KRYV6ov,4NZzcrKRnWOqECqbuMJVWi,4BGlz02WgPr7FjygxSKwyO,2SScO6LwQwlpn8V8Wz3yd2,1qqWQ0l0IhS99OOk2Cd6V1"
+					"episodes?ids=4Yl5wPg5PC359M8KRYV6ov,1iGDDaXTpI6iBZkGiJz7Eb,4NZzcrKRnWOqECqbuMJVWi,4BGlz02WgPr7FjygxSKwyO,2SScO6LwQwlpn8V8Wz3yd2,1qqWQ0l0IhS99OOk2Cd6V1"
 				);
 				if (res?.status?.value === "success") {
 					this.episodes.data = res.data.value.episodes;
@@ -52,6 +62,42 @@ export const useGeneralStore = defineStore("general", {
 			} catch (error) {
 				this.episodes.error = true;
 				this.episodes.loading = false;
+			}
+		},
+		async fetchAlbums() {
+			this.albums.loading = true;
+			this.albums.error = false;
+			try {
+				const res = await getRequest(
+					"albums?ids=2DDaN7Pgx9uDPd8IbWWW9H,0ujHQ5WCLuKJQXOqXpGtpf,4JPguzRps3kuWDD5GS6oXr,6e1McsPwHgiySHVlpZRhFx,7IKkHmEk4It4cRdOYanyvW"
+				);
+				if (res?.status?.value === "success") {
+					this.albums.data = res.data.value.albums;
+					this.albums.loading = false;
+				} else {
+					this.albums.error = true;
+					this.albums.loading = false;
+				}
+			} catch (error) {
+				this.albums.error = true;
+				this.albums.loading = false;
+			}
+		},
+		async fetchShows() {
+			this.shows.loading = true;
+			this.shows.error = false;
+			try {
+				const res = await getRequest("shows?ids=122imavATqSE7eCyXIcqZL,2HwZTHRErslTlURQGbqFhk,2TaLkCgpUP9C1YlysQYEWy,0SAv0bEYhFndhLODSzPIfL");
+				if (res?.status?.value === "success") {
+					this.shows.data = res.data.value.shows;
+					this.shows.loading = false;
+				} else {
+					this.shows.error = true;
+					this.shows.loading = false;
+				}
+			} catch (error) {
+				this.shows.error = true;
+				this.shows.loading = false;
 			}
 		},
 	},

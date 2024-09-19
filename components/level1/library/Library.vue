@@ -9,7 +9,7 @@ const isUser = false
 
 <template>
     <main :class="`${`${styles.main}`}  min-h-screen p-5 bg-background-color`">
-        <Heading tag="h1" size="md" text="Your Library" />
+        <!-- <Heading tag="h1" size="md" text="Your Library" /> -->
         <button v-if="!isUser" class="flex items-center h-[100%] w-[100%] justify-center gap-2">
             <Icon name="mdi:login-variant" :class="`${styles.loginIcon}`"/>
             <Text size="lg" text="Login" />

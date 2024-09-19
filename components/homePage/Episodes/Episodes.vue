@@ -17,9 +17,9 @@ if (!episodes.value.data.length) {
 <template>
     <main class="flex flex-col gap-6">
         <Heading tag="h1" size="lg" text="Episodes" />
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <Card v-for="episode in episodes.data" :key="episode.id" :image="episode.images[0].url"
-                :title="episode.name" :description="episode.description" />
+                :title="episode.name" :description="episode.description" :hideInfo="true" />
         </div>
     </main>
 </template>

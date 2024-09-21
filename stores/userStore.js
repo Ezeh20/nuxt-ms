@@ -14,7 +14,6 @@ const useUserStore = defineStore("user", {
 			try {
 				const response = await useFetch("/api/user/user");
 				if (response.data.value.status === 200) {
-					console.log(response, "loplmvld");
 					this.user = response.data.value.body;
 					this.token = response.data.value.token;
 				} else {

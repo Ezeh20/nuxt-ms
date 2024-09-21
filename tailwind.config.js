@@ -12,7 +12,7 @@ module.exports = {
       extend: {
         colors: {
           'primary-color': '#e84e01',
-          'secondary-color': '#7654321',
+          'secondary-color': '#eee',
           'text-color': '#C8C8C8',
           'background-color': '#121212',
         },
@@ -35,7 +35,9 @@ module.exports = {
         },
       },
     },
-    plugins: [],
+    plugins: [
+
+    ],
   }
 
   // #ffa101

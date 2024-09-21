@@ -1,8 +1,8 @@
 <script setup>
 import { ref, onMounted, onUnmounted, watch } from 'vue';
-import styles from './Hero.module.scss';
 import { storeToRefs } from 'pinia';
 import { useGeneralStore } from '@/stores/generalStore';
+import PrimarySkeleton from '~/components/atomic/Skeletons/PrimarySkeleton.vue';
 
 const generalStore = useGeneralStore();
 const { artists } = storeToRefs(generalStore);
@@ -50,14 +50,15 @@ watch(() => artists.value.data, () => {
   activeCardIndex.value = 0;
 }, { deep: true });
 
+
 </script>
 
 <template>
   <main>
     <div class="hero">
       <div class="hero__content">
-        <p v-if="artists.data.length === 0">Loading...</p>
         <div class="relative h-[450px] w-full" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave">
+           <PrimarySkeleton v-if="artists.data.length === 0" class="h-full w-full"/>
           <section v-for="(artist, index) in artists.data" :key="artist.id"
             class="absolute top-0 left-0 w-full h-full transition-all duration-300 ease-in-out" :style="{
               opacity: index === activeCardIndex ? 1 : 0,
@@ -76,9 +77,9 @@ watch(() => artists.value.data, () => {
                 <p :class="[
                   'text-white text-sm px-2 py-1 rounded',
                   artist.popularity <= 30 ? 'bg-red-500/50' :
-                  artist.popularity <= 50 ? 'bg-gray-400' :
-                  artist.popularity <= 79 ? 'bg-yellow-500/50' :
-                  'bg-primary-color'
+                    artist.popularity <= 50 ? 'bg-gray-400' :
+                      artist.popularity <= 79 ? 'bg-yellow-500/50' :
+                        'bg-primary-color'
                 ]">
                   {{ artist.popularity }}
                 </p>
@@ -89,7 +90,8 @@ watch(() => artists.value.data, () => {
               }">
                 <div class="flex flex-wrap gap-4">
                   <p v-for="genre in artist.genres" :key="genre"
-                    class="flex items-center border opacity-55 border-text-color/80 text-sm rounded-[4px]  px-4 py-2"> {{ genre }}</p>
+                    class="flex items-center border opacity-55 border-text-color/80 text-sm rounded-[4px]  px-4 py-2">
+                    {{ genre }}</p>
                 </div>
               </div>
             </div>

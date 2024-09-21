@@ -5,7 +5,7 @@
  * and to avoid the user from having to log in again
  */
 
-import { getCookie, setCookie } from "h3";
+import { getCookie } from "h3";
 export default defineEventHandler(async (event) => {
 	const { SP_CLIENT_ID, SP_CLIENT_SECRET } = useRuntimeConfig();
 	const refreshToken = getCookie(event, "spa_ac_rk");
@@ -40,29 +40,12 @@ export default defineEventHandler(async (event) => {
 				message: "Unauthorized",
 			};
 		}
-		const { access_token, refresh_token, expires_in } = await response.json();
-		setCookie(event, "spa_ac_ak", access_token, {
-			httpOnly: true,
-			secure: true,
-			path: "/",
-			sameSite: "Lax",
-		});
-		setCookie(event, "spa_ac_rk", refresh_token, {
-			httpOnly: true,
-			secure: true,
-			path: "/",
-			sameSite: "Lax",
-		});
-		const expiryTimestamp = Date.now() + expires_in * 1000;
-		setCookie(event, "spa_exp", expiryTimestamp, {
-			httpOnly: true,
-			secure: true,
-			path: "/",
-			sameSite: "None",
-		});
+		const { access_token,  expires_in } = await response.json();
 		return {
 			status: 201,
 			message: "success",
+			access_token,
+			expires_in,
 		};
 	} catch (error) {
 		error;

@@ -7,16 +7,19 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@nuxtjs/google-fonts',
     '@nuxt/icon',
-    '@nuxt/ui',
+    'shadcn-nuxt',
+
   ],
+ shadcn: {
+    prefix: '',
+    componentDir: './components/ui'
+  },
   tailwindcss:{
     cssPath:"~/assets/css/tailwind.css",
     configPath: 'tailwind.config.js',
     exposeConfig: false,
-    config:{},
     injectPosition:0,
     viewer:true
-    
   },
   googleFonts: {
     families: {

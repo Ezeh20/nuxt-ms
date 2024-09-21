@@ -26,7 +26,6 @@ export default defineEventHandler(async (event) => {
 
 	const response = await fetch("https://accounts.spotify.com/api/token", authOptions);
 	const data = await response.json();
-
 	if (response.ok) {
 		const { access_token, refresh_token, expires_in } = data;
 		setCookie(event, "spa_ac_ak", access_token, {
@@ -54,7 +53,6 @@ export default defineEventHandler(async (event) => {
 			path: '/',
 			sameSite: 'None',
 		});
-		
 
 		return { success: true, status: 200 };
 	} else {

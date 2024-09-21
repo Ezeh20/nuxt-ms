@@ -6,6 +6,8 @@ const useUserStore = defineStore("user", {
 		token: null,
 		loading: false,
 		error: false,
+		player: null,
+		deviceId: null, 
 	}),
 	actions: {
 		async fetchUser() {
@@ -25,6 +27,12 @@ const useUserStore = defineStore("user", {
 				this.loading = false;
 			}
 		},
+		setPlayer(player) {
+			this.player = player;
+		  },
+		  setDeviceId(deviceId) {
+			this.deviceId = deviceId;
+		  },
 	},
 });
 

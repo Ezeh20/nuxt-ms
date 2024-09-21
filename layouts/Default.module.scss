@@ -1,4 +1,5 @@
 .main{
-    grid-template-columns: 1.75fr 6.5fr 2fr;
+    display: grid;
+    grid-template-columns: 1.75fr 6.5fr 1.75fr;
     gap: 10px;
 }

@@ -23,6 +23,11 @@ export const useGeneralStore = defineStore("general", {
 			error: false,
 			data: [],
 		},
+		categories: {
+			loading: false,
+			error: false,
+			data: [],
+		},
 	}),
 
 	actions: {
@@ -83,12 +88,14 @@ export const useGeneralStore = defineStore("general", {
 				this.albums.loading = false;
 			}
 		},
-		
+
 		async fetchShows() {
 			this.shows.loading = true;
 			this.shows.error = false;
 			try {
-				const res = await getRequest("shows?ids=122imavATqSE7eCyXIcqZL,2HwZTHRErslTlURQGbqFhk,2TaLkCgpUP9C1YlysQYEWy,0SAv0bEYhFndhLODSzPIfL");
+				const res = await getRequest(
+					"shows?ids=122imavATqSE7eCyXIcqZL,2HwZTHRErslTlURQGbqFhk,2TaLkCgpUP9C1YlysQYEWy,0SAv0bEYhFndhLODSzPIfL"
+				);
 				if (res?.status?.value === "success") {
 					this.shows.data = res.data.value.shows;
 					this.shows.loading = false;
@@ -99,6 +106,24 @@ export const useGeneralStore = defineStore("general", {
 			} catch (error) {
 				this.shows.error = true;
 				this.shows.loading = false;
+			}
+		},
+
+		async fetchCategories() {
+			this.categories.loading = true;
+			this.categories.error = false;
+			try {
+				const res = await getRequest("browse/categories");
+				if (res?.status?.value === "success") {
+					this.categories.data = res.data.value.categories;
+					this.categories.loading = false;
+				} else {
+					this.categories.error = true;
+					this.categories.loading = false;
+				}
+			} catch (error) {
+				this.categories.error = true;
+				this.categories.loading = false;
 			}
 		},
 	},

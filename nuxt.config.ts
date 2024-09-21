@@ -45,4 +45,7 @@ export default defineNuxtConfig({
       SP_BASE_URL:process.env.SP_BASE_URL,
     }
   },
+  plugins: [
+    '~/plugins/spotify.js',
+  ],
 })

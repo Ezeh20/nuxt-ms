@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@nuxtjs/google-fonts',
     '@nuxt/icon',
-    
+    '@nuxt/ui',
   ],
   tailwindcss:{
     cssPath:"~/assets/css/tailwind.css",
@@ -37,6 +37,7 @@ export default defineNuxtConfig({
   runtimeConfig:{
     SP_CLIENT_ID:process.env.SP_CLIENT_ID,
     SP_CLIENT_SECRET:process.env.SP_CLIENT_SECRET,
+    SP_REDIRECT_URI:process.env.SP_REDIRECT_URI,
     public:{
       SP_BASE_URL:process.env.SP_BASE_URL,
     }

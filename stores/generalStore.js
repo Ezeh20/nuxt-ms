@@ -83,6 +83,7 @@ export const useGeneralStore = defineStore("general", {
 				this.albums.loading = false;
 			}
 		},
+		
 		async fetchShows() {
 			this.shows.loading = true;
 			this.shows.error = false;

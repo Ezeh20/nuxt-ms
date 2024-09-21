@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import Library from '~/components/level1/library/Library.vue';
 import styles from './Default.module.scss';
+const userStore = useUserStore();
+const { user, loading, error } = storeToRefs(userStore);
+
+onMounted(async () => {
+    await userStore.fetchUser();
+});
 </script>
 
 

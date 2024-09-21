@@ -1,8 +1,15 @@
 <script setup lang="ts">
 import styles from './SideBar.module.scss';
 import { sideBarItems } from './constant';
-import { useRoute } from 'vue-router';
-const route = useRoute().path;
+
+const isAuth = useCookie('active');
+const renderSideBar = computed(() => {
+    if (!isAuth.value) {
+        return sideBarItems.menu.filter((item) => item.id !== 2)
+    }
+    return sideBarItems.menu
+})
+
 </script>
 
 
@@ -10,7 +17,7 @@ const route = useRoute().path;
     <aside :class="`${`${styles.main}`} flex flex-col justify-between min-h-screen pt-4 bg-background-color`">
         <nav class="flex flex-col gap-[3rem]">
             <h1 class="text-2xl  font-alt-font font-normal ml-5">Echo∏</h1>
-            <ul v-for="item in sideBarItems.menu" :key="item.id" class="flex flex-col gap-4">
+            <ul v-for="item in renderSideBar" :key="item.id" class="flex flex-col gap-4">
                 <h2 class="font-3rd-font text-sm ml-5 opacity-50">{{ item.title }}</h2>
                 <li v-for="link in item.links" :key="link.name" :class="[
                     'pl-5 h-[90px] relative cursor-pointer font-3rd-font group',

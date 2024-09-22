@@ -14,7 +14,7 @@ const renderSideBar = computed(() => {
 
 
 <template>
-    <aside :class="`${`${styles.main}`} flex flex-col justify-between min-h-screen pt-4 bg-background-color`">
+    <aside :class="`${`${styles.main}`} flex flex-col justify-between  pt-4 bg-background-color`">
         <nav class="flex flex-col gap-[3rem]">
             <h1 class="text-2xl  font-alt-font font-normal ml-5">Echo∏</h1>
             <ul v-for="item in renderSideBar" :key="item.id" class="flex flex-col gap-4">

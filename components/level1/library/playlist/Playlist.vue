@@ -66,7 +66,9 @@ const options = ['playlists', 'albums', 'artists']
                 <PrimarySkeleton class="w-full h-[100%]" />
             </div>
         </section>
+
         <section v-else>
+
             <section class="flex gap-2 mb-4">
                 <div v-for="(option, idx) in options" :key="option">
                     <button
@@ -75,55 +77,59 @@ const options = ['playlists', 'albums', 'artists']
                         }}</button>
                 </div>
             </section>
-            <section v-if="activeTab === 0" class="flex flex-col gap-5 overflow-y-scroll h-[85vh] pb-6">
-                <div v-if="playlist?.data?.items?.length > 0" v-for="playlist in playlist.data.items"
-                    :key="playlist?.id">
-                    <NuxtLink :to="`/playlist/${playlist?.id}`" class="flex flex-col gap-2 text-text-color/90 text-xs cursor-pointer  h-full">
-                        <img :src="playlist?.images?.[0]?.url" alt="playlist image"
-                            class="h-[150px] w-full object-cover object-top opacity-70 hover:opacity-100 transition-all duration-300 rounded-t-lg" />
-                        <div class="flex flex-col gap-1 justify-between ">
-                            <p>{{ playlist?.name }}</p>
-                            <p>{{ playlist?.tracks?.total }} {{ playlist?.tracks?.total > 1 ? 'tracks' :
-                                'track' }}</p>
-                        </div>
-                    </NuxtLink>
-                </div>
-                <div v-else>
-                    <p>you have no playlists</p>
-                </div>
-            </section>
+            <section class="overflow-y-scroll h-[85vh]">
+                <section v-if="activeTab === 0" class="flex flex-col gap-5 overflow-y-scroll">
+                    <div v-if="playlist?.data?.items?.length > 0" v-for="playlist in playlist.data.items"
+                        :key="playlist?.id">
+                        <NuxtLink :to="`/playlist/${playlist?.id}`" class="flex flex-col gap-2 text-text-color/90 text-xs cursor-pointer  h-full">
+                            <img :src="playlist?.images?.[0]?.url" alt="playlist image"
+                                class="h-[150px] w-full object-cover object-top opacity-70 hover:opacity-100 transition-all duration-300 rounded-t-lg" />
+                            <div class="flex flex-col gap-1 justify-between ">
+                                <p>{{ playlist?.name }}</p>
+                                <p>{{ playlist?.tracks?.total }} {{ playlist?.tracks?.total > 1 ? 'tracks' :
+                                    'track' }}</p>
+                            </div>
+                        </NuxtLink>
+                    </div>
+                    <div v-else>
+                        <p>you have no playlists</p>
+                    </div>
+                </section>
 
-            <section v-if="activeTab === 1" class="flex flex-col gap-5 overflow-y-scroll h-[85vh] pb-6">
-                <div v-if="albums?.data?.items?.length > 0" v-for="album in albums.data.items" :key="album?.id">
-                    <NuxtLink class="flex flex-col gap-2 text-text-color/90 text-xs cursor-pointer  h-full">
-                        <img :src="album?.album?.images?.[0]?.url" alt="album image"
-                            class="h-[150px] w-full object-cover object-top opacity-70 hover:opacity-100 transition-all duration-300 rounded-t-lg" />
-                        <div class="flex flex-col gap-1 justify-between ">
-                            <p>{{ album?.album?.artists?.[0]?.name }}</p>
-                            <p>{{ album?.album?.total_tracks }} {{ album?.album?.total_tracks > 1 ? 'tracks' :
-                                'track' }}</p>
-                        </div>
-                    </NuxtLink>
-                </div>
-                <div v-else>
-                    <p>you have no albums</p>
-                </div>
-            </section>
+                <section v-if="activeTab === 1" class="flex flex-col gap-5">
+                    <div v-if="albums?.data?.items?.length > 0" v-for="album in albums.data.items" :key="album?.id">
+                        <NuxtLink class="flex flex-col gap-2 text-text-color/90 text-xs cursor-pointer  h-full">
+                            <img :src="album?.album?.images?.[0]?.url" alt="album image"
+                                class="h-[150px] w-full object-cover object-top opacity-70 hover:opacity-100 transition-all duration-300 rounded-t-lg" />
+                            <div class="flex flex-col gap-1 justify-between ">
+                                <p>{{ album?.album?.artists?.[0]?.name }}</p>
+                                <p>{{ album?.album?.total_tracks }} {{ album?.album?.total_tracks > 1 ? 'tracks' :
+                                    'track' }}</p>
+                            </div>
+                        </NuxtLink>
+                    </div>
+                    <div v-else>
+                        <p>you have no albums</p>
+                    </div>
+                </section>
 
-            <section v-if="activeTab === 2" class="flex flex-col gap-5 overflow-y-scroll h-[85vh] pb-6">
-                <div v-if="artists?.data?.artists?.items?.length > 0" v-for="artist in artists.data.artists.items" :key="artist?.id">
-                    <NuxtLink class="grid  gap-4 text-text-color/90 text-base cursor-pointer h-full">
-                        <img :src="artist?.images?.[0]?.url" alt="artist image"
-                            class="h-[100%] w-[100%] opacity-70 hover:opacity-100 transition-all duration-300 rounded-full " />
-                        <div class="flex flex-col gap-1 justify-between text-center">
-                            <p>{{ artist?.name }}</p>
-                        </div>
-                    </NuxtLink>
-                </div>
-                <div v-else>
-                    <p>empty</p>
-                </div>
+                <section v-if="activeTab === 2" class="flex flex-col gap-5">
+                    <div v-if="artists?.data?.artists?.items?.length > 0" v-for="artist in artists.data.artists.items"
+                        :key="artist?.id">
+                        <NuxtLink class="grid  gap-4 text-text-color/90 text-base cursor-pointer h-full">
+                            <img :src="artist?.images?.[0]?.url" alt="artist image"
+                                class="h-[100%] w-[100%] opacity-70 hover:opacity-100 transition-all duration-300 rounded-full " />
+                            <div class="flex flex-col gap-1 justify-between text-center">
+                                <p>{{ artist?.name }}</p>
+                            </div>
+                        </NuxtLink>
+                    </div>
+                    <div v-else>
+                        <p>empty</p>
+                    </div>
+                </section>
             </section>
         </section>
+
     </main>
 </template>

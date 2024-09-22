@@ -19,7 +19,7 @@ const blocks = [1, 2, 3]
 </script>
 
 <template>
-  <main class="flex flex-col h-screen  bg-background-color">
+  <main class="flex flex-col  bg-background-color">
     <Heading tag="h1" size="md" text="Your Library" class="p-4"/>
     <section v-if="!isActive && !user" class="h-full">
       <button @click="handleLogin" class="flex items-center h-[100%] w-[100%] justify-center gap-2">
@@ -27,8 +27,8 @@ const blocks = [1, 2, 3]
         <Text size="lg" text="Login" />
       </button>
     </section>
-    <main v-else :class="`${`${styles.main}`}  min-h-screen p-5 bg-background-color`">
-      <div v-if="loading && !user" class="flex flex-col gap-5 h-[100vh]">
+    <main v-else :class="`${`${styles.main}`} p-5 bg-background-color`">
+      <div v-if="loading && !user" class="flex flex-col gap-5">
         <PrimarySkeleton v-for="block in blocks" :key="block" class="h-full w-full" />
       </div>
       <section v-if="user">

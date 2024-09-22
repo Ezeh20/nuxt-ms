@@ -16,16 +16,16 @@ onMounted(async () => {
             <SideBar class="sticky top-0 h-screen" />
             <section class="bg-background-color w-full flex flex-col h-screen">
                 <NavBar class="sticky top-0 z-10" />
-                <div class="overflow-y-auto flex-grow">
+                <div class="relative overflow-y-auto flex-grow">
                     <Container>
                         <slot />
-                       
                     </Container>
                     <Footer />
-        
-                    <Player class="bg-red-400 fixed bottom-0 w-[100%]  h-[50px]"/>
+               
                 </div>
+              
             </section>
-            <Library class="sticky top-0 h-screen" />
+            <Library/>
+            <Player class=" fixed bottom-0 w-full bg-black h-[80px] z-40"/>
         </section>
 </template>

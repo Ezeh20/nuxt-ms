@@ -4,7 +4,7 @@ import { storeToRefs } from '#imports';
 export default defineNuxtPlugin((nuxtApp) => {
     const userStore = useUserStore();
     const { token } = storeToRefs(userStore);
-    
+
     if (import.meta.client) {
       const script = document.createElement("script");
       script.src = "https://sdk.scdn.co/spotify-player.js";
@@ -20,8 +20,8 @@ export default defineNuxtPlugin((nuxtApp) => {
   
         // Listeners
         player.addListener('ready', ({ device_id }) => {
-            userStore.setDeviceId(device_id);
             userStore.setPlayer(player)
+            userStore.setDeviceId(device_id);
         });
   
         player.addListener('not_ready', ({ device_id }) => {

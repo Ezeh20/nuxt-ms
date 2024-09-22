@@ -5,8 +5,7 @@
 
 body {
     @apply bg-black text-text-color font-3rd-font;
-    position: relative;
-    overflow: hidden;
+ 
 }
 
 /* body::before {
@@ -39,10 +38,23 @@ body {
 }
 
 .hide-scroll {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
 }
 
 .hide-scroll::-webkit-scrollbar {
-    display: none;  /* Chrome, Safari and Opera */
+    display: none;
+}
+
+progress::-webkit-progress-bar {
+    background-color: #222223; 
+    border-radius: 9999px;
+}
+progress::-webkit-progress-value {
+    border-radius: 9999px; 
+    @apply bg-primary-color/80
+}
+progress::-moz-progress-bar {
+    background-color: #1db954;
+    border-radius: 9999px; 
 }

@@ -7,7 +7,7 @@ import PrimarySkeleton from '~/components/atomic/Skeletons/PrimarySkeleton.vue';
 const generalStore = useGeneralStore();
 const { albums } = storeToRefs(generalStore);
 
-if (!albums.value.length) {
+if (!albums?.value?.length) {
     generalStore.fetchAlbums();
 }
 
@@ -22,8 +22,8 @@ const cards = [1, 2, 3, 4, 5];
         <section v-if="albums.data.length === 0" class="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-4">
             <PrimarySkeleton v-for="card in cards" :key="card" class="h-[200px] w-full rounded-md" />
         </section>
-        <section v-else class="flex flex-col gap-6">
-            <Heading tag="h1" size="lg" text="Albums" />
+        <section v-else class="flex flex-col">
+            <Heading tag="h2" size="md" text="Albums" />
             <div class="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-4">
                 <Card v-for="album in albums.data" :key="album.id" :image="album.images[0].url" :title="album.name"
                     :description="album.label" alt="true" />

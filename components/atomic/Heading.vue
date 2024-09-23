@@ -13,10 +13,11 @@ const props = defineProps<HeaderProps>()
 <template>
     <component :is="props.tag" :class="{
         'text-2xl font-bold': props.size === 'lg',
-        'text-xl font-semibold': props.size === 'md',
+        'text-base font-semibold': props.size === 'md',
         'text-lg font-medium': props.size === 'sm',
-        [props.altColor || 'text-primary-color']: true,
-    }">
+        [props.altColor || 'text-white']: true,
+       
+    }" style="margin-bottom: 20px; font-weight: 500;">
         {{ props.text ?? "Default Text" }}
     </component>
 </template>

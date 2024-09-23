@@ -57,7 +57,7 @@ watch(() => artists.value.data, () => {
   <main>
     <div class="hero">
       <div class="hero__content">
-        <div class="relative h-[450px] w-full" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave">
+        <div class="relative h-[400px] w-full" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave">
            <PrimarySkeleton v-if="artists.data.length === 0" class="h-full w-full"/>
           <section v-for="(artist, index) in artists.data" :key="artist.id"
             class="absolute top-0 left-0 w-full h-full transition-all duration-300 ease-in-out" :style="{

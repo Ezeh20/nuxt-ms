@@ -21,11 +21,9 @@ onMounted(async () => {
                         <slot />
                     </Container>
                     <Footer />
-               
                 </div>
-              
             </section>
             <Library/>
-            <Player class=" fixed bottom-0 w-full bg-black h-[80px] z-40"/>
+            <Player class=" fixed bottom-0 w-full bg-black h-[100px] z-40"/>
         </section>
 </template>

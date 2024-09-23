@@ -46,6 +46,26 @@ body {
     display: none;
 }
 
+
+.btn-circle {
+    @apply bg-white flex items-center justify-center w-[30px] h-[30px] rounded-full;
+}
+
+.btn-circle-alt {
+    @apply bg-transparent flex items-center justify-center w-[30px] h-[30px] rounded-full;
+}
+
+.btn-circle-primary {
+    @apply bg-primary-color flex items-center justify-center w-[40px] h-[40px] rounded-full;
+}
+
+.glass{
+    @apply bg-white/10 backdrop-blur-[2px] 
+}
+
+.g-lay{
+    @apply grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-4
+}
 progress::-webkit-progress-bar {
     background-color: #222223; 
     border-radius: 9999px;

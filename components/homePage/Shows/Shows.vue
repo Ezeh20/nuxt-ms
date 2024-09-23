@@ -20,8 +20,8 @@ const cards = [1, 2, 3, 4];
         <section v-if="shows.data.length === 0" class="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-4">
             <PrimarySkeleton v-for="card in cards" :key="card" class="h-[200px] w-full rounded-md" />
         </section>
-        <section v-else class="flex flex-col gap-6">
-            <Heading tag="h1" size="lg" text="Shows" />
+        <section v-else class="flex flex-col">
+            <Heading tag="h1" size="md" text="Shows" />
             <div class="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-4">
             <Card v-for="show in shows.data" :key="show.id" :image="show.images[0].url"
                     :title="show.name" :description="show.publisher" alt="true" />

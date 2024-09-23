@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { _getAuthRequest_ } from "#imports";
 
 const useUserStore = defineStore("user", {
 	state: () => ({
@@ -7,7 +8,13 @@ const useUserStore = defineStore("user", {
 		loading: false,
 		error: false,
 		player: null,
-		deviceId: null, 
+		deviceId: null,
+		topTracks: null,
+		loadingTracks: false,
+		tracksError: false,
+		recTracks: null,
+		recLoading: false,
+		recError: false,
 	}),
 	actions: {
 		async fetchUser() {
@@ -29,10 +36,50 @@ const useUserStore = defineStore("user", {
 		},
 		setPlayer(player) {
 			this.player = player;
-		  },
-		  setDeviceId(deviceId) {
+		},
+		setDeviceId(deviceId) {
 			this.deviceId = deviceId;
-		  },
+		},
+		async setTopTracks() {
+			this.loadingTracks = true;
+			this.tracksError = false;
+			try {
+				const response = await _getAuthRequest_(
+					`me/top/tracks?time_range=long_term&limit=5`,
+					this.token
+				);
+				this.topTracks = response;
+				this.loadingTracks = false;
+			} catch (error) {
+				this.tracksError = true;
+			} finally {
+				this.loadingTracks = false;
+			}
+		},
+		async setRecTracks() {
+			this.loadingTracks = true;
+			this.tracksError = false;
+			try {
+				await _getAuthRequest_(
+					`me/top/tracks?time_range=long_term&limit=5`,
+					this.token
+				).then(async (data) => {
+					const ids = await data?.items.map((item) => [item?.id]).flat();
+
+					const response = await _getAuthRequest_(
+						`recommendations?limit=5&seed_tracks=${ids.join(",")}`,
+						this.token
+					);
+					console.log(response?.tracks);
+					this.recTracks = response.tracks;
+					this.recLoading = false
+				});
+			} catch (error) {
+				this.recError = true;
+			} finally {
+				this.recLoading = false;
+			}
+		},
 	},
 });
 

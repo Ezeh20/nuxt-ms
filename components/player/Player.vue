@@ -1,21 +1,27 @@
 <script setup>
+import { storeToRefs } from "#imports";
+import { formatTime } from '~/utils/formatTime';
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { useUserStore } from "#imports";
-import { storeToRefs } from "#imports";
+import { usePlayerStore } from '~/stores/playingState';
 const userStore = useUserStore();
+const playerStore = usePlayerStore();
 const { player, token } = storeToRefs(userStore);
-import { formatTime } from '~/utils/formatTime';
+const { trackUri, playingState } = storeToRefs(playerStore);
+
 
 const currentPosition = ref(0);
 const duration = ref(0);
 const isPlaying = ref(false);
+const hasNext = ref(false);
+const hasPrevious = ref(false);
+const currentTrack = ref(null);
 let counter = null;
 
 const play = async () => {
     if (player.value) {
         try {
             await player.value.resume();
-            isPlaying.value = true;
         } catch (err) {
             //
         }
@@ -26,10 +32,31 @@ const pause = async () => {
     if (player.value) {
         try {
             await player.value.pause();
-            isPlaying.value = false;
             clearInterval(counter);
         } catch (err) {
             //
+        }
+    }
+};
+
+const nextTrack = async () => {
+    if (player.value) {
+        try {
+            await player.value.nextTrack();
+            startProgressUpdate();
+        } catch (err) {
+            console.error('Error skipping to next track:', err);
+        }
+    }
+};
+
+const previousTrack = async () => {
+    if (player.value) {
+        try {
+            await player.value.previousTrack();
+            startProgressUpdate();
+        } catch (err) {
+            console.error('Error skipping to previous track:', err);
         }
     }
 };
@@ -44,24 +71,30 @@ const setVolume = async (volume) => {
     }
 };
 
-const callTrack = async () => {
+const callTracks = async () => {
     if (!userStore.deviceId) {
         console.error('Device ID is not available');
         return;
     }
 
     try {
+        const playOptions = {
+            "offset": { "position": 0 },
+            "position_ms": 0
+        };
+        if (trackUri.value.startsWith('spotify:track:')) {
+            playOptions.uris = [trackUri.value];
+        } else {
+            playOptions.context_uri = trackUri.value;
+        }
+
         const response = await fetch(`https://api.spotify.com/v1/me/player/play?device_id=${userStore.deviceId}`, {
             method: "PUT",
             headers: {
                 "Authorization": `Bearer ${token.value}`,
                 "Content-type": "application/json"
             },
-            body: JSON.stringify({
-                "context_uri": "spotify:playlist:1mTHRrUZN3qhRXPObuYSHq",
-                "offset": { "position": 0 },
-                "position_ms": 0
-            })
+            body: JSON.stringify(playOptions)
         });
 
         if (!response.ok) {
@@ -69,15 +102,16 @@ const callTrack = async () => {
             return;
         }
 
+        // Wait for a second before fetching the playback state to ensure it has started
         setTimeout(async () => {
             const state = await player.value?.getCurrentState();
             if (state) {
                 duration.value = state.track_window.current_track.duration_ms;
                 currentPosition.value = state.position;
                 isPlaying.value = true;
-                startProgressUpdate();
+                startProgressUpdate();  // Start progress bar update
             } else {
-                //
+                console.warn('No state available from the player');
             }
         }, 1000);
 
@@ -85,6 +119,7 @@ const callTrack = async () => {
         console.error('Error playing track:', error);
     }
 };
+
 
 
 const updateProgress = async () => {
@@ -120,11 +155,15 @@ onMounted(() => {
     setVolume(1);
     const checkPlayerReady = () => {
         if (player.value) {
-            // Listen for playback state changes
             player.value.addListener('player_state_changed', (state) => {
                 if (state) {
                     duration.value = state.track_window.current_track.duration_ms;
                     currentPosition.value = state.position;
+                    updateTrackInfo(state);
+                    playerStore.setDuration(state.duration)
+                    playerStore.setPlayingState(!state.paused)
+                    hasNext.value = state.track_window.next_tracks.length > 0;
+                    hasPrevious.value = state.track_window.previous_tracks.length > 0;
                 }
             });
 
@@ -132,11 +171,15 @@ onMounted(() => {
                 if (state) {
                     duration.value = state.track_window.current_track.duration_ms;
                     currentPosition.value = state.position;
+                    updateTrackInfo(state);
+                    playerStore.setDuration(state.duration)
+                    playerStore.setPlayingState(!state.paused)
+                    hasNext.value = state.track_window.next_tracks.length > 0;
+                    hasPrevious.value = state.track_window.previous_tracks.length > 0;
                     startProgressUpdate();
                 }
             });
         } else {
-            // Retry after a short delay
             setTimeout(checkPlayerReady, 100);
         }
     };
@@ -144,26 +187,67 @@ onMounted(() => {
     checkPlayerReady();
 });
 
+const updateTrackInfo = (state) => {
+    if (state && state.track_window.current_track) {
+        currentTrack.value = state.track_window.current_track;
+    }
+};
+
 
 onBeforeUnmount(() => {
     clearInterval(counter);
 });
+
+watchEffect(async () => {
+    if (trackUri.value) {
+        await callTracks();
+    }
+})
 </script>
 
 <template>
-    <main class="flex flex-col justify-center items-center">
-        <section>
-            <button v-if="isPlaying" @click="pause">Pause</button>
-            <div v-if="!isPlaying">
-                <button v-if="duration === 0" @click="callTrack">Play Track</button>
-                <button v-else @click="play">Play</button>
+    <main class="flex w-full justify-between items-center  gap-4 px-2">
+        <div class="w-[20%] flex items-center gap-[8px]">
+            <img :src="currentTrack?.album?.images[0]?.url" alt="img" class="w-[50px] h-[50px] rounded-[100%]">
+            <div>
+                <p class="text-sm font-semibold">{{ currentTrack?.name }}</p>
+                <p class="text-xs font-light">{{ currentTrack?.artists[0]?.name }}</p>
             </div>
-        </section>
-        <div class="flex justify-center items-center gap-2 w-[100%]">
-            <p class="text-xs">{{ formatTime(currentPosition) }} </p>
-            <progress @click="seek" :value="currentPosition" :max="duration" class="w-[30%] h-[6px] cursor-pointer rounded-full">
-            </progress>
-            <p class="text-xs">{{ formatTime(duration) }}</p>
+        </div>
+        <div class="flex flex-col gap-2 justify-center items-center w-[60%]">
+            <section class="flex items-center  gap-5">
+                <button :disabled="!hasPrevious" @click="previousTrack"
+                    :class="['btn-circle-alt', { 'opacity-50 cursor-not-allowed': !hasPrevious }]">
+                    <Icon name="mdi:skip-previous" class="text-white w-[25px] h-[25px]" />
+                </button>
+                <section>
+                    <button v-if="playingState" @click="pause" class="btn-circle ">
+                        <Icon name="mdi:pause" class="text-black w-[25px] h-[25px]" />
+                    </button>
+                    <div v-if="!playingState">
+                        <button v-if="duration === 0" @click="callTracks" class="btn-circle">
+                            <Icon name="mdi:play" class="text-black w-[25px] h-[25px]" />
+                        </button>
+                        <button v-else @click="play" class="btn-circle ">
+                            <Icon name="mdi:play" class="text-black w-[25px] h-[25px]" />
+                        </button>
+                    </div>
+                </section>
+                <button :disabled="!hasNext" @click="nextTrack"
+                    :class="['btn-circle-alt', { 'opacity-50 cursor-not-allowed': !hasNext }]">
+                    <Icon name="mdi:skip-next" class="text-white w-[25px] h-[25px]" />
+                </button>
+            </section>
+            <div class="flex items-center gap-2 w-[70%]">
+                <p class="text-xs">{{ formatTime(currentPosition) }} </p>
+                <progress @click="seek" :value="currentPosition" :max="duration"
+                    class="w-[100%] h-[6px] cursor-pointer rounded-full">
+                </progress>
+                <p class="text-xs">{{ formatTime(duration) }}</p>
+            </div>
+        </div>
+        <div class="w-[20%]">
+            <p></p>
         </div>
     </main>
 </template>

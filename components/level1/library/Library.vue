@@ -13,8 +13,6 @@ const { login } = useAuth()
 import { useUtilStore } from '~/stores/utilStore';
 const isActive = useCookie('active');
 const blocks = [1, 2, 3]
-
-
 const utilStore = useUtilStore();
 const { rightBarActive } = storeToRefs(utilStore)
 

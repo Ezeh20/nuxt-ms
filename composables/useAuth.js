@@ -2,7 +2,7 @@ import { useUserStore } from "~/stores/userStore";
 
 export function useAuth() {
 	const userStore = useUserStore();
-	const currentLocation = window?.location.origin + "/";
+	const currentLocation = window?.location.href
 
 	const login = async () => {
 		const res = await $fetch("/api/utils/getAuthLink", {

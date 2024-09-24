@@ -26,7 +26,7 @@ const {width} = useWindowSize()
 
 <template>
     <aside :class="`${`${styles.main}`} flex flex-col justify-between  pt-4 bg-background-color`">
-        <nav class="flex flex-col gap-[3rem]">
+        <nav :class="`flex flex-col ${width > 1024 ? 'gap-[3rem]' : ''}`">
             <div class="flex flex-col">
                 <NuxtLink to="/" class="flex items-end ml-4 mb-4 ">
                     <Icon name="mdi:speaker" class="text-primary-color w-[40px] h-[40px]" />
@@ -41,7 +41,7 @@ const {width} = useWindowSize()
                 <li v-for="link in item.links" :key="link.name" :class="[
                     'pl-5 relative cursor-pointer font-3rd-font group',
                     { 'active-route': $route.path === link.path },
-                    leftBarActive ? 'h-[90px]' : 'h-[60px]'
+                    width >= 1024 ? (leftBarActive ? 'h-[90px]' : 'h-[60px]') : 'h-[50px]'
                 ]">
                     <NuxtLink :to="link.path" class="flex items-center gap-2 w-full h-full relative z-10">
                         <Icon :name="`mdi:${link.icon}`"

@@ -5,6 +5,8 @@ import Player from '~/components/player/Player.vue';
 const userStore = useUserStore();
 const { user, loading, error } = storeToRefs(userStore);
 
+const isActive = useCookie("isActive")
+
 onMounted(async () => {
     await userStore.fetchUser();
 });
@@ -24,7 +26,7 @@ onMounted(async () => {
             </div>
         </section>
         <Library />
-        <Player class=" fixed bottom-0 w-full bg-black h-[100px] z-40" />
+        <Player v-if="isActive && user" class=" fixed bottom-0 w-full bg-black h-[100px] z-40" />
     </section>
     <UNotifications />
 </template>

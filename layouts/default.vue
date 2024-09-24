@@ -5,7 +5,7 @@ import Player from '~/components/player/Player.vue';
 const userStore = useUserStore();
 const { user, loading, error } = storeToRefs(userStore);
 
-const isActive = useCookie("isActive")
+const isActive = useCookie("active")
 
 onMounted(async () => {
     await userStore.fetchUser();

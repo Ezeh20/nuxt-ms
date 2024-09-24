@@ -1,4 +1,29 @@
-.main{
+
+
+.main {
     display: grid;
     gap: 10px;
-}
+  }
+  
+  .layoutGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+  
+    @media (min-width: 1024px) {
+      &.leftActive.rightActive {
+        grid-template-columns: 1.75fr 6.5fr 1.75fr;
+      }
+  
+      &.leftInactive.rightActive {
+        grid-template-columns: 0fr 6.5fr 1.75fr;
+      }
+  
+      &.leftActive.rightInactive {
+        grid-template-columns: 1.75fr 6.5fr 0fr;
+      }
+  
+      &.leftInactive.rightInactive {
+        grid-template-columns: 0fr 6.5fr 0fr;
+      }
+    }
+  }

@@ -19,21 +19,21 @@ onMounted(async () => {
 import { useWindowSize } from '@vueuse/core';
 const { width } = useWindowSize();
 
+const layoutClasses = computed(() => [
+    styles.layoutGrid,
+    {
+        [styles.leftActive]: leftBarActive,
+        [styles.leftInactive]: !leftBarActive,
+        [styles.rightActive]: rightBarActive,
+        [styles.rightInactive]: !rightBarActive,
+    }
+]);
+
 </script>
 
 
 <template>
-    <section :class="`${styles.main}`" :style="{
-        'grid-template-columns': width < 1024
-            ? '1fr'
-            : leftBarActive && rightBarActive
-                ? '1.75fr 6.5fr 1.75fr'
-                : !leftBarActive && rightBarActive
-                    ? '0fr 6.5fr 1.75fr'
-                    : leftBarActive && !rightBarActive
-                        ? '1.75fr 6.5fr 0fr'
-                        : '0fr 6.5fr 0fr'
-    }">
+    <section :class="[styles.main, layoutClasses]">
         <SideBar :class="{ 'sticky top-0 h-screen': width > 1024 }" />
         <section class="bg-background-color w-full flex flex-col h-screen">
             <NavBar class="sticky top-0 z-10" />

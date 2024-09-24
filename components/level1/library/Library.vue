@@ -20,6 +20,7 @@ const handleLogin = async () => {
 };
 const isActive = useCookie('active');
 const blocks = [1, 2, 3]
+
 </script>
 
 <template>

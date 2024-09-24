@@ -4,15 +4,15 @@
  * This is used to get the access token and refresh token
  * and to set the access token and refresh token in the cookies
  */
-
 export default defineEventHandler(async (event) => {
-	const { SP_CLIENT_ID, SP_CLIENT_SECRET, SP_REDIRECT_URI, SP_LIVE_REDIRECT_URI } =
-		useRuntimeConfig();
+	const { SP_CLIENT_ID, SP_CLIENT_SECRET } = useRuntimeConfig();
 	const body = await readBody(event);
 	const code = body.code;
-
+	const SP_LIVE_REDIRECT_URI = "https://echo-three-pi.vercel.app/";
+	const SP_LOCAL_REDIRECT_URI = "http://localhost:3000/";
 	const redirectUri =
-		process.env.NODE_ENV === "production" ? SP_LIVE_REDIRECT_URI : SP_REDIRECT_URI;
+		process.env.NODE_ENV === "production" ? SP_LIVE_REDIRECT_URI : SP_LOCAL_REDIRECT_URI;
+
 	const authOptions = {
 		method: "POST",
 		headers: {

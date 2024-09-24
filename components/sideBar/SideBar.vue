@@ -67,8 +67,8 @@ const renderSideBar = computed(() => {
         </nav>
 
 
-        <section class="flex flex-col gap-2 ml-5">
+        <!-- <section class="flex flex-col gap-2 ml-5">
             <p>user settings</p>
-        </section>
+        </section> -->
     </aside>
 </template>

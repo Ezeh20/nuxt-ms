@@ -16,21 +16,21 @@ export const sideBarItems = {
         },
     ]
 },
-{
-    id:2,
-    title:"Activity",
-    links:[
-        {
-            name: 'Favorites',
-            icon: 'heart',
-            path: '/favorites',
-        },
-        {
-            name: 'History',
-            icon: 'history',
-            path: '/history',
-        },
-    ]
-}
+// {
+//     id:2,
+//     title:"Activity",
+//     links:[
+//         {
+//             name: 'Favorites',
+//             icon: 'heart',
+//             path: '/favorites',
+//         },
+//         {
+//             name: 'History',
+//             icon: 'history',
+//             path: '/history',
+//         },
+//     ]
+// }
     ],
 }

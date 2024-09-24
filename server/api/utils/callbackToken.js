@@ -6,12 +6,15 @@
  */
 
 export default defineEventHandler(async (event) => {
-	const { SP_CLIENT_ID, SP_CLIENT_SECRET, SP_REDIRECT_URI, LIVE_REDIRECT_URI } =
+	const { SP_CLIENT_ID, SP_CLIENT_SECRET, SP_REDIRECT_URI, SP_LIVE_REDIRECT_URI } =
 		useRuntimeConfig();
 	const body = await readBody(event);
 	const code = body.code;
 
-	const redirectUri = process.env.NODE_ENV === "production" ? LIVE_REDIRECT_URI : SP_REDIRECT_URI;
+	const redirectUri =
+		process.env.NODE_ENV === "production" ? SP_LIVE_REDIRECT_URI : SP_REDIRECT_URI;
+
+	console.log(redirectUri, "calvkfnvt", SP_LIVE_REDIRECT_URI);
 	const authOptions = {
 		method: "POST",
 		headers: {
@@ -22,7 +25,7 @@ export default defineEventHandler(async (event) => {
 		body: new URLSearchParams({
 			grant_type: "authorization_code",
 			code: code,
-			redirect_uri: "https://echo-three-pi.vercel.app/",
+			redirect_uri: redirectUri,
 		}).toString(),
 	};
 

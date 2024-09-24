@@ -10,22 +10,25 @@ import { useUserStore } from '~/stores/userStore';
 const { user, loading } = storeToRefs(userStore);
 import { useAuth } from '~/composables/useAuth';
 const { login } = useAuth()
-
+import { useUtilStore } from '~/stores/utilStore';
 const isActive = useCookie('active');
 const blocks = [1, 2, 3]
-const isOpen = ref(true)
+
+
+const utilStore = useUtilStore();
+const { rightBarActive } = storeToRefs(utilStore)
 
 const toggleOpen = () => {
-  isOpen.value = !isOpen.value
+  utilStore.toggleRightBar()
 }
 </script>
 
 <template>
-  <main class="flex flex-col  bg-background-color">
+  <main :class="`flex flex-col bg-background-color ${!rightBarActive ? 'w-[150px]' : ''}`">
     <div class="flex relative justify-between">
       <Icon name="mdi:library"
-        :class="`absolute cursor-pointer top-[15px] text-[80px] text-text-color transform ${isOpen ? 'rotate-[-90deg]' : 'rotate-[90deg]'}`"
-        style="width:25px; height:25px" @click="toggleOpen"/>
+        :class="`absolute cursor-pointer top-[15px] text-[80px] text-text-color transform ${rightBarActive ? 'rotate-[-90deg]' : 'rotate-[90deg]'}`"
+        style="width:25px; height:25px" @click="toggleOpen" />
       <div></div>
       <Heading tag="h1" size="md" text="Your Library" class="p-4" />
     </div>

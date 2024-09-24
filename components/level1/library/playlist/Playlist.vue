@@ -9,7 +9,7 @@ const { token, user } = storeToRefs(userStore);
 const { trackUri } = toRefs(playerStore);
 import { reactive, ref } from 'vue';
 import { noImage } from '~/assets/icons';
-
+import truncateText from '~/utils/truncate';
 
 const activeTab = ref(0);
 const playlist = reactive({
@@ -117,11 +117,15 @@ const createPlaylist = async () => {
     }
 }
 
-watch(playlist, (newValue) => {
-    console.log('Playlist updated:', newValue);
-}, { deep: true });
 
 const isPlayer = ref(trackUri)
+
+const utilStore = useUtilStore();
+const { rightBarActive } = storeToRefs(utilStore)
+
+const toggleOpen = () => {
+    utilStore.toggleRightBar()
+}
 </script>
 
 <template>
@@ -166,29 +170,34 @@ const isPlayer = ref(trackUri)
             </div>
         </section>
         <section v-else>
-            <section class="flex gap-2 mb-4">
+            <section :class="`${rightBarActive ? 'flex' : 'flex-col'} flex  gap-2 mb-4`">
                 <div v-for="(option, idx) in options" :key="option">
                     <button
-                        :class="` text-sm py-2 px-4 rounded-lg ${activeTab === idx ? 'bg-white/90 text-black' : 'bg-[#1e1e1e] text-text-color/90'}`"
+                        :class="` text-sm py-2 px-4 w-[100%] rounded-lg ${activeTab === idx ? 'bg-white/90 text-black' : 'bg-[#1e1e1e] text-text-color/90'}`"
                         @click="activeTab = idx">{{ option
                         }}</button>
                 </div>
             </section>
-            <section :class="`overflow-y-scroll ${isPlayer ? 'h-[72vh]' : 'h-[80vh]'}`">
+            <section :class="`overflow-y-scroll ${isPlayer ? 'h-[72vh]' : 'h-[80vh]'} ${!rightBarActive && 'h-[68vh]'}`">
                 <section v-if="activeTab === 0" class="flex flex-col gap-5 overflow-y-scroll">
-                    <button class=" flex items-center gap-4 text-primary-color" @click="isOpen = true">Create new
+                    <button class=" flex items-center gap-4 text-primary-color" @click="isOpen = true">Create
                         <Icon name="mdi:plus" class=" text-primary-color" />
                     </button>
                     <div v-if="playlist?.data?.items?.length > 0" v-for="playlist in playlist.data.items"
                         :key="playlist?.id">
                         <NuxtLink :to="`/playlist/${playlist?.id}`"
                             class="flex flex-col gap-2 text-text-color/90 text-xs cursor-pointer  h-full">
-                            <img :src="playlist?.images?.[0]?.url ?? noImage" alt="playlist image"
-                                class="h-[150px] w-full object-cover object-top opacity-70 hover:opacity-100 transition-all duration-300 rounded-t-lg" />
-                            <div class="flex flex-col gap-1 justify-between ">
-                                <p>{{ playlist?.name }}</p>
-                                <p>{{ playlist?.tracks?.total }} {{ playlist?.tracks?.total > 1 ? 'tracks' :
-                                    'track' }}</p>
+                            <img v-if="!rightBarActive" :src="playlist?.images?.[0]?.url ?? noImage"
+                                alt="playlist image"
+                                class="h-[100px] w-[100px] rounded-md object-cover object-top opacity-70 hover:opacity-100 transition-all duration-300" />
+                            <div v-else>
+                                <img :src="playlist?.images?.[0]?.url ?? noImage" alt="playlist image"
+                                    class="h-[150px] w-full object-cover object-top opacity-70 hover:opacity-100 transition-all duration-300 rounded-t-lg" />
+                                <div class="flex flex-col gap-1 justify-between ">
+                                    <p>{{ playlist?.name }}</p>
+                                    <p>{{ playlist?.tracks?.total }} {{ playlist?.tracks?.total > 1 ? 'tracks' :
+                                        'track' }}</p>
+                                </div>
                             </div>
                         </NuxtLink>
                     </div>
@@ -200,12 +209,16 @@ const isPlayer = ref(trackUri)
                 <section v-if="activeTab === 1" class="flex flex-col gap-5">
                     <div v-if="albums?.data?.items?.length > 0" v-for="album in albums.data.items" :key="album?.id">
                         <NuxtLink class="flex flex-col gap-2 text-text-color/90 text-xs cursor-pointer  h-full">
-                            <img :src="album?.album?.images?.[0]?.url ?? noImage" alt="album image"
-                                class="h-[150px] w-full object-cover object-top opacity-70 hover:opacity-100 transition-all duration-300 rounded-t-lg" />
-                            <div class="flex flex-col gap-1 justify-between ">
-                                <p>{{ album?.album?.artists?.[0]?.name }}</p>
-                                <p>{{ album?.album?.total_tracks }} {{ album?.album?.total_tracks > 1 ? 'tracks' :
-                                    'track' }}</p>
+                            <img v-if="!rightBarActive" :src="album?.album?.images?.[0]?.url ?? noImage" alt="album image"
+                            class="h-[100px] w-[100px] object-cover object-top opacity-70 hover:opacity-100 transition-all duration-300 rounded-md" />
+                            <div v-else>
+                                <img :src="album?.album?.images?.[0]?.url ?? noImage" alt="album image"
+                                    class="h-[150px] w-full object-cover object-top opacity-70 hover:opacity-100 transition-all duration-300 rounded-t-lg" />
+                                <div class="flex flex-col gap-1 justify-between ">
+                                    <p>{{ album?.album?.artists?.[0]?.name }}</p>
+                                    <p>{{ album?.album?.total_tracks }} {{ album?.album?.total_tracks > 1 ? 'tracks' :
+                                        'track' }}</p>
+                                </div>
                             </div>
                         </NuxtLink>
                     </div>
@@ -217,11 +230,11 @@ const isPlayer = ref(trackUri)
                 <section v-if="activeTab === 2" class="flex flex-col gap-5">
                     <div v-if="artists?.data?.artists?.items?.length > 0" v-for="artist in artists.data.artists.items"
                         :key="artist?.id">
-                        <NuxtLink class="grid  gap-4 text-text-color/90 text-base cursor-pointer h-full">
+                        <NuxtLink :class="`grid gap-4 text-text-color/90 ${!rightBarActive ? 'text-xs' : 'text-base'} items-center cursor-pointer h-full`">
                             <img :src="artist?.images?.[0]?.url" alt="artist image"
                                 class="h-[100%] w-[100%] opacity-70 hover:opacity-100 transition-all duration-300 rounded-full " />
                             <div class="flex flex-col gap-1 justify-between text-center">
-                                <p>{{ artist?.name }}</p>
+                                <p>{{ truncateText(artist?.name, 15)}}</p>
                             </div>
                         </NuxtLink>
                     </div>

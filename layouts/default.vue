@@ -9,6 +9,10 @@ const { user } = storeToRefs(userStore);
 const { trackUri } = storeToRefs(playerState)
 const isActive = useCookie("active")
 
+import { useUtilStore } from '~/stores/utilStore';
+const utilStore = useUtilStore();
+const { leftBarActive, rightBarActive } = storeToRefs(utilStore)
+
 onMounted(async () => {
     await userStore.fetchUser();
 });
@@ -16,7 +20,15 @@ onMounted(async () => {
 
 
 <template>
-    <section :class="`${styles.main}`">
+    <section :class="`${styles.main}`" :style="{
+        'grid-template-columns': leftBarActive && rightBarActive
+            ? '1.75fr 6.5fr 1.75fr'
+            : !leftBarActive && rightBarActive
+                ? '0fr 6.5fr 1.75fr'
+                : leftBarActive && !rightBarActive
+                    ? '1.75fr 6.5fr 0fr'
+                    : '0fr 6.5fr 0fr'
+    }">
         <SideBar class="sticky top-0 h-screen" />
         <section class="bg-background-color w-full flex flex-col h-screen">
             <NavBar class="sticky top-0 z-10" />

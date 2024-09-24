@@ -44,9 +44,9 @@ const layoutClasses = computed(() => [
                         ? '1.75fr 6.5fr 0fr'
                         : '0fr 6.5fr 0fr'
     }">
-        <SideBar :class="{ 'sticky top-0 h-screen': width > 1024 }" />
+   
         <section class="bg-background-color w-full flex flex-col h-screen">
-            <NavBar class="sticky top-0 z-10" />
+      
             <div class="overflow-y-auto flex-grow ">
                 <Container>
                     <slot />
@@ -54,7 +54,7 @@ const layoutClasses = computed(() => [
                 <Footer v-if="width > 1024" />
             </div>
         </section>
-        <Library />
+
         <Player v-if="isActive && user && trackUri" class=" fixed bottom-0 w-full bg-black h-[100px] z-40" />
     </section>
     <UNotifications />

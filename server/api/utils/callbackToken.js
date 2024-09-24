@@ -13,10 +13,6 @@ export default defineEventHandler(async (event) => {
 
 	const redirectUri =
 		process.env.NODE_ENV === "production" ? SP_LIVE_REDIRECT_URI : SP_REDIRECT_URI;
-
-		console.log(redirectUri, "redirect");
-
-	console.log(redirectUri, "calvkfnvt", SP_LIVE_REDIRECT_URI);
 	const authOptions = {
 		method: "POST",
 		headers: {

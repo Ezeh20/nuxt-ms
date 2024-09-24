@@ -9,13 +9,13 @@ import Playlist from './playlist/Playlist.vue';
 import PrimarySkeleton from '~/components/atomic/Skeletons/PrimarySkeleton.vue';
 import Heading from '~/components/atomic/Heading.vue';
 
-const currentUrl = window.location.href;
+const currentUrl = window?.location.href;
 const handleLogin = async () => {
   const res = await $fetch('/api/utils/getAuthLink', {
     method: 'POST',
     body: { redirect_uri: currentUrl },
   });
-  window.location.href = res.spotifyAuthUrl;
+  window?.location.href = res.spotifyAuthUrl;
 };
 const isActive = useCookie('active');
 const blocks = [1, 2, 3]

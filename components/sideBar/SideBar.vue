@@ -16,8 +16,9 @@ const renderSideBar = computed(() => {
 <template>
     <aside :class="`${`${styles.main}`} flex flex-col justify-between  pt-4 bg-background-color`">
         <nav class="flex flex-col gap-[3rem]">
-            <NuxtLink to="/" class="flex items-center ml-4 mb-4">
+            <NuxtLink to="/" class="flex items-end ml-4 mb-4 ">
                 <Icon name="mdi:speaker" class="text-primary-color w-[40px] h-[40px]" />
+                <p class=" text-primary-color font-semibold">Echo</p>
             </NuxtLink>
             <ul v-for="item in renderSideBar" :key="item.id" class="flex flex-col gap-4">
                 <h2 class="font-3rd-font text-sm ml-5 opacity-50">{{ item.title }}</h2>

@@ -97,16 +97,28 @@ const createPlaylist = async () => {
             isOpen.value = false;
             playlistName.value = '';
             description.value = '';
+            useToast().add({
+                title: 'Success',
+                description: 'Playlist created',
+                icon: 'i-heroicons-check-circle',
+                color: "green"
+            });
         }
     } catch (error) {
         create_Playlist.error = error;
+        useToast().add({
+            title: 'Error',
+            description: 'Failed create Playlist',
+            icon: 'i-heroicons-x-circle',
+            color: 'red',
+        });
     } finally {
         create_Playlist.pending = false;
     }
 }
 
 watch(playlist, (newValue) => {
-  console.log('Playlist updated:', newValue);
+    console.log('Playlist updated:', newValue);
 }, { deep: true });
 
 const isPlayer = ref(trackUri)

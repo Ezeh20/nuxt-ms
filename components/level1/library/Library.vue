@@ -13,12 +13,22 @@ const { login } = useAuth()
 
 const isActive = useCookie('active');
 const blocks = [1, 2, 3]
+const isOpen = ref(true)
 
+const toggleOpen = () => {
+  isOpen.value = !isOpen.value
+}
 </script>
 
 <template>
   <main class="flex flex-col  bg-background-color">
-    <Heading tag="h1" size="md" text="Your Library" class="p-4" />
+    <div class="flex relative justify-between">
+      <Icon name="mdi:library"
+        :class="`absolute cursor-pointer top-[15px] text-[80px] text-text-color transform ${isOpen ? 'rotate-[-90deg]' : 'rotate-[90deg]'}`"
+        style="width:25px; height:25px" @click="toggleOpen"/>
+      <div></div>
+      <Heading tag="h1" size="md" text="Your Library" class="p-4" />
+    </div>
     <section v-if="!isActive && !user" class="h-full">
       <button @click="login" class="flex items-center h-[100%] w-[100%] justify-center gap-2">
         <Icon name="mdi:login-variant" :class="`${styles.loginIcon}`" />

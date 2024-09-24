@@ -16,7 +16,7 @@ onMounted(async () => {
 
 
 <template>
-    <section :class="` ${styles.main}`">
+    <section :class="`${styles.main}`">
         <SideBar class="sticky top-0 h-screen" />
         <section class="bg-background-color w-full flex flex-col h-screen">
             <NavBar class="sticky top-0 z-10" />

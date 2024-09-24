@@ -1,5 +1,9 @@
 <script setup>
 import { ref } from 'vue';
+import { usePlayerStore } from '#imports';
+const playerStore = usePlayerStore()
+const { trackUri } = storeToRefs(playerStore)
+
 const props = defineProps({
     uri: {
         type: String,
@@ -48,12 +52,14 @@ const addToQueue = async () => {
     <UPopover v-model:open="isOpen">
         <UButton color="gray" variant="ghost" icon="i-heroicons-ellipsis-horizontal" />
         <template #panel>
-            <div class="p-4 space-y-2">
+            <div v-if="trackUri" class="space-y-2">
                 <button @click="addToQueue" :disabled="isAddingToQueue"
-                    class="w-full  text-left p-2 text-sm text-gray-white hover:text-background-color hover:bg-gray-100 transition-colors duration-150 ease-in-out rounded-md">
-                    {{ isAddingToQueue ? "Adding to Queue" : " Add to Queue" }}
+                    class="w-full flex items-center gap-2  text-left p-4 text-sm text-white  transition-colors duration-150 ease-in-out rounded-md">
+                    <Icon v-if="!isAddingToQueue" name="mdi:plus" />
+                    {{ isAddingToQueue ? "adding to Queue" : " add to queue" }}
                 </button>
             </div>
+            <p v-else class="p-4 text-sm">No active queue</p>
         </template>
     </UPopover>
 </template>

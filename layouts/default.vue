@@ -46,7 +46,7 @@ const layoutClasses = computed(() => [
     }">
    
         <section class="bg-background-color w-full flex flex-col h-screen">
-      
+            <NavBar class="sticky top-0 z-10" />
             <div class="overflow-y-auto flex-grow ">
                 <Container>
                     <slot />

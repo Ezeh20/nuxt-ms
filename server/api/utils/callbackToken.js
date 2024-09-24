@@ -10,10 +10,11 @@ export default defineEventHandler(async (event) => {
 	const code = body.code;
 	const SP_LIVE_REDIRECT_URI = "https://echo-three-pi.vercel.app/";
 	const SP_LOCAL_REDIRECT_URI = "http://localhost:3000/";
+
 	const redirectUri =
 		process.env.NODE_ENV === "production"
 			? SP_LIVE_REDIRECT_URI
-			: process.env.NODE_ENV === "production"
+			: process.env.NODE_ENV === "development"
 			? SP_LOCAL_REDIRECT_URI
 			: "https://echo-three-pi.vercel.app/";
 
@@ -27,7 +28,7 @@ export default defineEventHandler(async (event) => {
 		body: new URLSearchParams({
 			grant_type: "authorization_code",
 			code: code,
-			redirect_uri: redirectUri ? redirectUri : "https://echo-three-pi.vercel.app/",
+			redirect_uri: redirectUri,
 		}).toString(),
 	};
 

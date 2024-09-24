@@ -9,11 +9,12 @@ import Playlist from './playlist/Playlist.vue';
 import PrimarySkeleton from '~/components/atomic/Skeletons/PrimarySkeleton.vue';
 import Heading from '~/components/atomic/Heading.vue';
 
-const currentUrl = window?.location.href;
+
+const currentLocation = window?.location.href
 const handleLogin = async () => {
   const res = await $fetch('/api/utils/getAuthLink', {
     method: 'POST',
-    body: { redirect_uri: currentUrl },
+    body: { path: currentLocation }
   });
   window.location.href = res.spotifyAuthUrl;
 };

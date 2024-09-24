@@ -9,6 +9,22 @@ const { query } = storeToRefs(searchStore)
 const updateQuery = (event) => {
     searchStore.setQuery(event.target.value)
 }
+const popoverOpen = ref(false);
+import { useUserStore } from '#imports';
+import { useAuth } from '~/composables/useAuth';
+const userStore = useUserStore()
+const { user } = storeToRefs(userStore)
+const isActive = useCookie('active')
+
+const { login, logout } = useAuth()
+
+
+const handleLogout = async () => {
+    await logout()
+    popoverOpen.value = false
+}
+
+
 </script>
 
 <template>
@@ -28,9 +44,25 @@ const updateQuery = (event) => {
                     </NuxtLink>
                 </div>
                 <div class="flex items-center gap-2">
-                    <button class=" flex items-center justify-center w-[32px]  h-[32px] rounded-full bg-white">
-                        <Icon name="uil:user" class="text-black text-2xl" />
-                    </button>
+
+                    <UPopover v-model="popoverOpen" mode="hover"
+                        :popper="{ placement: 'bottom-end', offsetDistance: 15 }">
+                        <button class=" flex items-center justify-center w-[32px]  h-[32px] rounded-full bg-white">
+                            <p v-if="user || isActive" class="text-black text-xl font-bold">{{ user?.display_name.charAt(0) }}
+                            </p>
+                            <Icon v-else name="uil:user" class="text-black text-2xl" />
+                        </button>
+                        <template #panel>
+                            <div class="">
+                                <button @click="isActive || user ? logout() : login()"
+                                    class="flex items-center gap-4 p-4">
+                                    <Icon :name="isActive || user ? 'mdi:logout' : 'mdi:login'"
+                                        class="text-white text-2xl" />
+                                    <span class="text-sm text-white">{{ isActive || user ? "Logout" : "Login" }}</span>
+                                </button>
+                            </div>
+                        </template>
+                    </UPopover>
                 </div>
             </nav>
         </header>

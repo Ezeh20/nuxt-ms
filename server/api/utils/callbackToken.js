@@ -48,7 +48,7 @@ export default defineEventHandler(async (event) => {
 			path: "/",
 			sameSite: "None",
 		});
-
+		
 		setCookie(event, "active", "true", {
 			secure: true,
 			path: "/",

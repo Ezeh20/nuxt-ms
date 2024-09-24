@@ -1,23 +1,16 @@
 <script setup>
-import Text from '~/components/atomic/Text.vue';
-import styles from './Library.module.scss';
-import { useUserStore } from '~/stores/userStore';
-const userStore = useUserStore();
-import { _getAuthRequest_ } from '~/utils/apiClient';
-const { user, loading } = storeToRefs(userStore);
 import Playlist from './playlist/Playlist.vue';
 import PrimarySkeleton from '~/components/atomic/Skeletons/PrimarySkeleton.vue';
 import Heading from '~/components/atomic/Heading.vue';
+import Text from '~/components/atomic/Text.vue';
+import styles from './Library.module.scss';
+const userStore = useUserStore();
+import { _getAuthRequest_ } from '~/utils/apiClient';
+import { useUserStore } from '~/stores/userStore';
+const { user, loading } = storeToRefs(userStore);
+import { useAuth } from '~/composables/useAuth';
+const { login } = useAuth()
 
-
-const currentLocation = window?.location.href
-const handleLogin = async () => {
-  const res = await $fetch('/api/utils/getAuthLink', {
-    method: 'POST',
-    body: { path: currentLocation }
-  });
-  window.location.href = res.spotifyAuthUrl;
-};
 const isActive = useCookie('active');
 const blocks = [1, 2, 3]
 
@@ -27,7 +20,7 @@ const blocks = [1, 2, 3]
   <main class="flex flex-col  bg-background-color">
     <Heading tag="h1" size="md" text="Your Library" class="p-4" />
     <section v-if="!isActive && !user" class="h-full">
-      <button @click="handleLogin" class="flex items-center h-[100%] w-[100%] justify-center gap-2">
+      <button @click="login" class="flex items-center h-[100%] w-[100%] justify-center gap-2">
         <Icon name="mdi:login-variant" :class="`${styles.loginIcon}`" />
         <Text size="lg" text="Login" />
       </button>

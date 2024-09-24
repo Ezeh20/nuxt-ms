@@ -3,12 +3,10 @@ import Library from '~/components/level1/library/Library.vue';
 import styles from './Default.module.scss';
 import { usePlayerStore } from '#imports';
 import Player from '~/components/player/Player.vue';
-
 const userStore = useUserStore();
 const playerState = usePlayerStore();
-const { user, loading, error, player } = storeToRefs(userStore);
+const { user } = storeToRefs(userStore);
 const { trackUri } = storeToRefs(playerState)
-
 const isActive = useCookie("active")
 
 onMounted(async () => {

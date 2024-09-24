@@ -19,21 +19,11 @@ onMounted(async () => {
 import { useWindowSize } from '@vueuse/core';
 const { width } = useWindowSize();
 
-const layoutClasses = computed(() => [
-  styles.layoutGrid,
-  {
-    [styles.leftActive]: leftBarActive,
-    [styles.leftInactive]: !leftBarActive,
-    [styles.rightActive]: rightBarActive,
-    [styles.rightInactive]: !rightBarActive,
-  }
-]);
-
 </script>
 
 
 <template>
-    <section :class="`${styles.main}`" :style="{
+  <section :class="`${styles.main} grid`" :style="{
         'grid-template-columns': width < 1024
             ? '1fr'
             : leftBarActive && rightBarActive
@@ -44,7 +34,7 @@ const layoutClasses = computed(() => [
                         ? '1.75fr 6.5fr 0fr'
                         : '0fr 6.5fr 0fr'
     }">
-   
+        <SideBar class="sticky top-0 h-screen" />
         <section class="bg-background-color w-full flex flex-col h-screen">
             <NavBar class="sticky top-0 z-10" />
             <div class="overflow-y-auto flex-grow ">
@@ -54,7 +44,7 @@ const layoutClasses = computed(() => [
                 <Footer v-if="width > 1024" />
             </div>
         </section>
-
+        <Library />
         <Player v-if="isActive && user && trackUri" class=" fixed bottom-0 w-full bg-black h-[100px] z-40" />
     </section>
     <UNotifications />

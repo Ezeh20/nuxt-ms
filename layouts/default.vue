@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import Library from '~/components/level1/library/Library.vue';
 import styles from './Default.module.scss';
+import { usePlayerStore } from '#imports';
 import Player from '~/components/player/Player.vue';
+
 const userStore = useUserStore();
-const { user, loading, error } = storeToRefs(userStore);
+const playerState = usePlayerStore();
+const { user, loading, error, player } = storeToRefs(userStore);
+const { trackUri } = storeToRefs(playerState)
 
 const isActive = useCookie("active")
 
@@ -26,7 +30,7 @@ onMounted(async () => {
             </div>
         </section>
         <Library />
-        <Player v-if="isActive && user" class=" fixed bottom-0 w-full bg-black h-[100px] z-40" />
+        <Player v-if="isActive && user && trackUri" class=" fixed bottom-0 w-full bg-black h-[100px] z-40" />
     </section>
     <UNotifications />
 </template>

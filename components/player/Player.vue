@@ -4,10 +4,13 @@ import { formatTime } from '~/utils/formatTime';
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { useUserStore } from "#imports";
 import { usePlayerStore } from '~/stores/playingState';
+import { noImage } from "~/assets/icons";
 const userStore = useUserStore();
 const playerStore = usePlayerStore();
 const { player, token } = storeToRefs(userStore);
 const { trackUri, playingState } = storeToRefs(playerStore);
+import truncateText from "~/utils/truncate";
+
 
 
 const currentPosition = ref(0);
@@ -208,10 +211,11 @@ watchEffect(async () => {
 <template>
     <main class="flex w-full justify-between items-center  gap-4 px-2">
         <div class="w-[20%] flex items-center gap-[8px]">
-            <img :src="currentTrack?.album?.images[0]?.url" alt="img" class="w-[50px] h-[50px] rounded-[100%]">
+            <img v-if="currentTrack?.album?.images[0]?.url" :src="currentTrack?.album?.images[0]?.url ?? noImage"
+                alt="img" class="w-[50px] h-[50px] rounded-[100%]">
             <div>
-                <p class="text-sm font-semibold">{{ currentTrack?.name }}</p>
-                <p class="text-xs font-light">{{ currentTrack?.artists[0]?.name }}</p>
+                <p class="text-sm font-semibold">{{ truncateText(currentTrack?.name, 20) }}</p>
+                <p class="text-xs font-light">{{ truncateText(currentTrack?.artists[0]?.name, 20) }}</p>
             </div>
         </div>
         <div class="flex flex-col gap-2 justify-center items-center w-[60%]">

@@ -1,15 +1,17 @@
 /**
  * This endpoint is used to exchange the authorization code for an access token
- * 
+ *
  * This is used to get the access token and refresh token
  * and to set the access token and refresh token in the cookies
  */
 
 export default defineEventHandler(async (event) => {
-	const { SP_CLIENT_ID, SP_CLIENT_SECRET, SP_REDIRECT_URI } = useRuntimeConfig();
+	const { SP_CLIENT_ID, SP_CLIENT_SECRET, SP_REDIRECT_URI, LIVE_REDIRECT_URI } =
+		useRuntimeConfig();
 	const body = await readBody(event);
 	const code = body.code;
 
+	const redirectUri = process.env.NODE_ENV === "production" ? LIVE_REDIRECT_URI : SP_REDIRECT_URI;
 	const authOptions = {
 		method: "POST",
 		headers: {
@@ -20,7 +22,7 @@ export default defineEventHandler(async (event) => {
 		body: new URLSearchParams({
 			grant_type: "authorization_code",
 			code: code,
-			redirect_uri: SP_REDIRECT_URI,
+			redirect_uri: redirectUri,
 		}).toString(),
 	};
 
@@ -47,11 +49,11 @@ export default defineEventHandler(async (event) => {
 			sameSite: "None",
 		});
 		const expiryTimestamp = Date.now() + expires_in * 1000;
-		setCookie(event, 'spa_exp', expiryTimestamp, {
+		setCookie(event, "spa_exp", expiryTimestamp, {
 			httpOnly: true,
 			secure: true,
-			path: '/',
-			sameSite: 'None',
+			path: "/",
+			sameSite: "None",
 		});
 
 		return { success: true, status: 200 };

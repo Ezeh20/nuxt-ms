@@ -21,12 +21,15 @@ const { rightBarActive } = storeToRefs(utilStore)
 const toggleOpen = () => {
   utilStore.toggleRightBar()
 }
+
+import { useWindowSize } from '@vueuse/core';
+const { width } = useWindowSize();
 </script>
 
 <template>
   <main :class="`flex flex-col bg-background-color ${!rightBarActive ? 'w-[150px]' : ''}`">
     <div class="flex relative justify-between">
-      <Icon name="mdi:library"
+      <Icon v-if="width >= 1024" name="mdi:library"
         :class="`absolute cursor-pointer top-[15px] text-[80px] text-text-color transform ${rightBarActive ? 'rotate-[-90deg]' : 'rotate-[90deg]'}`"
         style="width:25px; height:25px" @click="toggleOpen" />
       <div></div>

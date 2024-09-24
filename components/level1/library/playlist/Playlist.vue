@@ -178,7 +178,7 @@ const toggleOpen = () => {
                         }}</button>
                 </div>
             </section>
-            <section :class="`overflow-y-scroll ${isPlayer ? 'h-[72vh]' : 'h-[80vh]'} ${!rightBarActive && 'h-[68vh]'}`">
+            <section :class="`overflow-y-scroll ${isPlayer ? 'h-[72vh]' : 'h-[80vh]'} ${!rightBarActive && 'h-[62vh]'}`">
                 <section v-if="activeTab === 0" class="flex flex-col gap-5 overflow-y-scroll">
                     <button class=" flex items-center gap-4 text-primary-color" @click="isOpen = true">Create
                         <Icon name="mdi:plus" class=" text-primary-color" />

@@ -2,7 +2,7 @@
 import { useDebounceFn } from '@vueuse/core';
 import { useUserStore } from '#imports';
 import { storeToRefs } from 'pinia';
-
+import { noImage } from '~/assets/icons';
 import { useQueryStore } from '~/stores/queryStore';
 const q = useQueryStore()
 const { query } = storeToRefs(q)
@@ -105,7 +105,9 @@ const handFilter = (type) => {
 <template>
     <main class="relative pb-10">
         <section class="px-4  flex flex-col gap-10">
-            <!-- <div v-if="loading" class="w-full h-5 bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 animate-pulse"></div> -->
+            <Transition name="fade" mode="out-in" class="absolute">
+                <div v-if="loading" class="w-full h-5 bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 animate-pulse"></div>
+            </Transition>
             <section v-if="Object.keys(data).length > 0" class=" bg-background-color flex gap-2 mb-2 mt-6">
                 <div v-for="option in options" :key="option">
                     <button
@@ -158,7 +160,7 @@ const handFilter = (type) => {
                     <div v-for="artist in data?.value?.artists?.items">
                         <NuxtLink
                             class="flex flex-col items-center gap-4 text-text-color/90 text-base cursor-pointer h-full">
-                            <img :src="artist?.images?.[0]?.url" alt="artist image"
+                            <img :src="artist?.images?.[0]?.url ?? noImage" alt="artist image"
                                 class="h-[150px] w-[150px] opacity-70 hover:opacity-100 object-cover object-top transition-all duration-300 rounded-full " />
                             <div class="flex flex-col gap-1 justify-between text-center">
                                 <p class="text-sm">{{ artist?.name }}</p>

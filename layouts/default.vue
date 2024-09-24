@@ -16,27 +16,32 @@ const { leftBarActive, rightBarActive } = storeToRefs(utilStore)
 onMounted(async () => {
     await userStore.fetchUser();
 });
+import { useWindowSize } from '@vueuse/core';
+const { width } = useWindowSize();
+
 </script>
 
 
 <template>
     <section :class="`${styles.main}`" :style="{
-        'grid-template-columns': leftBarActive && rightBarActive
-            ? '1.75fr 6.5fr 1.75fr'
-            : !leftBarActive && rightBarActive
-                ? '0fr 6.5fr 1.75fr'
-                : leftBarActive && !rightBarActive
-                    ? '1.75fr 6.5fr 0fr'
-                    : '0fr 6.5fr 0fr'
+        'grid-template-columns': width < 1024
+            ? '1fr'
+            : leftBarActive && rightBarActive
+                ? '1.75fr 6.5fr 1.75fr'
+                : !leftBarActive && rightBarActive
+                    ? '0fr 6.5fr 1.75fr'
+                    : leftBarActive && !rightBarActive
+                        ? '1.75fr 6.5fr 0fr'
+                        : '0fr 6.5fr 0fr'
     }">
-        <SideBar class="sticky top-0 h-screen" />
+        <SideBar :class="{ 'sticky top-0 h-screen': width > 1024 }" />
         <section class="bg-background-color w-full flex flex-col h-screen">
             <NavBar class="sticky top-0 z-10" />
             <div class="overflow-y-auto flex-grow ">
                 <Container>
                     <slot />
                 </Container>
-                <Footer />
+                <Footer v-if="width > 1024" />
             </div>
         </section>
         <Library />

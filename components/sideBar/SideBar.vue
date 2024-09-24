@@ -10,26 +10,43 @@ const renderSideBar = computed(() => {
     return sideBarItems.menu
 })
 
+import { useUtilStore } from '#imports';
+
+const utilStore = useUtilStore();
+const {leftBarActive } = storeToRefs(utilStore)
+
+const toggleOpen = () => {
+  utilStore.toggleLeftBar()
+}
+
+import { useWindowSize } from '@vueuse/core';
+const {width} = useWindowSize()
 </script>
 
 
 <template>
     <aside :class="`${`${styles.main}`} flex flex-col justify-between  pt-4 bg-background-color`">
         <nav class="flex flex-col gap-[3rem]">
-            <NuxtLink to="/" class="flex items-end ml-4 mb-4 ">
-                <Icon name="mdi:speaker" class="text-primary-color w-[40px] h-[40px]" />
-                <p class=" text-primary-color font-semibold">Echo</p>
-            </NuxtLink>
+            <div class="flex flex-col">
+                <NuxtLink to="/" class="flex items-end ml-4 mb-4 ">
+                    <Icon name="mdi:speaker" class="text-primary-color w-[40px] h-[40px]" />
+                    <p class=" text-primary-color font-semibold">Echo</p>
+                </NuxtLink>
+                <Icon v-if="width >= 1024" name="mdi:library"
+        :class="`cursor-pointer top-[15px] text-[80px] text-text-color transform ${!leftBarActive ? 'rotate-[-90deg]' : 'rotate-[90deg]'} self-end`"
+        style="width:25px; height:25px" @click="toggleOpen" />
+            </div>
             <ul v-for="item in renderSideBar" :key="item.id" class="flex flex-col gap-4">
                 <h2 class="font-3rd-font text-sm ml-5 opacity-50">{{ item.title }}</h2>
                 <li v-for="link in item.links" :key="link.name" :class="[
-                    'pl-5 h-[90px] relative cursor-pointer font-3rd-font group',
-                    { 'active-route': $route.path === link.path }
+                    'pl-5 relative cursor-pointer font-3rd-font group',
+                    { 'active-route': $route.path === link.path },
+                    leftBarActive ? 'h-[90px]' : 'h-[60px]'
                 ]">
                     <NuxtLink :to="link.path" class="flex items-center gap-2 w-full h-full relative z-10">
                         <Icon :name="`mdi:${link.icon}`"
-                            :class="`${$route.path === link.path ? 'text-primary-color' : 'text-secondary-color'}`" />
-                        <p :class="`${$route.path === link.path ? 'text-primary-color' : 'text-text-color'} text-base`">
+                            :class="`${$route.path === link.path ? 'text-primary-color' : 'text-secondary-color'} ${!leftBarActive ? 'w-[30px] h-[30px]' : 'w-[24px] h-[24px]'}`" />
+                        <p  v-if="leftBarActive" :class="`${$route.path === link.path ? 'text-primary-color' : 'text-text-color'} text-base`">
                             {{
                                 link.name }}</p>
                     </NuxtLink>

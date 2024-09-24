@@ -8,7 +8,11 @@ const userData = useUserStore()
 const playerState = usePlayerStore()
 const { token, player } = storeToRefs(userData)
 const { duration, playingState, trackUri } = storeToRefs(playerState)
-const { data, error, pending } = await useAsyncData('playlist', () => _getAuthRequest_(`playlists/${id}`, token.value))
+
+import { getSP_Token } from '#imports';
+const tokenResponse = await getSP_Token();
+console.log(tokenResponse, 'opo');
+const { data, error, pending } = await useAsyncData('playlist', () => _getAuthRequest_(`playlists/${id}`, tokenResponse?.token))
 import { formatTime } from '#imports';
 
 import { formatDate } from '~/utils/formatTime';
@@ -59,7 +63,7 @@ watchEffect(() => {
             <div :style="{ backgroundColor: `hsl(${Math.random() * 360}, ${50 + Math.random() * 0}%, ${30 + Math.random() * 0}%)` }"
                 class="h-[250px] w-full flex items-center relative">
                 <div class="flex items-center gap-4">
-                    <img :src="data?.images?.[0]?.url ?? noImage " alt="" class=" w-[250px] h-[250px]">
+                    <img :src="data?.images?.[0]?.url ?? noImage" alt="" class=" w-[250px] h-[250px]">
                     <div>
                         <p class="text-xl text-white">{{ data?.name }}</p>
                         <div class="flex items-center gap-4">
@@ -73,7 +77,7 @@ watchEffect(() => {
                         <button @click="handleSetTrack(data?.uri)" class="btn-circle" style="width: 50px; height: 50px">
                             <Icon name="mdi:play" class="text-black w-[35px] h-[35px]" />
                         </button>
-                        <p class="font-bold text-white">{{ data?.tracks.total }} {{ data?.tracks.total > 1 ?
+                        <p class="font-bold text-white">{{ data?.tracks?.total }} {{ data?.tracks?.total > 1 ?
                             "tracks" :
                             "track" }}</p>
                     </div>
@@ -91,7 +95,7 @@ watchEffect(() => {
                             </button>
                         </div>
                         <div>
-                            <p class="font-bold text-white">{{ data?.tracks.total }} {{ data?.tracks.total > 1 ?
+                            <p class="font-bold text-white">{{ data?.tracks?.total }} {{ data?.tracks?.total > 1 ?
                                 "tracks" :
                                 "track" }}</p>
                         </div>

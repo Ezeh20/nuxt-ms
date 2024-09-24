@@ -9,6 +9,7 @@ import Heading from '~/components/atomic/Heading.vue';
 import { usePlayerStore } from '#imports';
 const playerState = usePlayerStore()
 const { duration, playingState, trackUri } = storeToRefs(playerState)
+import Popover from '~/components/atomic/Popover.vue';
 
 if (!recTracks?.value?.length) {
     userData.setRecTracks()
@@ -55,7 +56,7 @@ watchEffect(() => {
             <Heading tag="h2" size="md" text="Recommended for you" />
             <div class="g-lay">
                 <div v-for="(track, idx) in recTracks" :key="idx"
-                    class="bg-red-400 flex flex-col justify-between p-2 rounded-md h-[100px]"
+                    class="bg-red-400 flex flex-col justify-between p-2 rounded-md h-[120px]"
                     :style="{ backgroundColor: `hsl(${Math.random() * 360}, ${70 + Math.random() * 10}%, ${25 + Math.random() * 10}%)` }">
                     <div class="flex justify-between items-center">
                         <p class="text-white font-extrabold text-xl">{{ idx + 1 }}</p>
@@ -83,6 +84,7 @@ watchEffect(() => {
                             </div>
                         </div>
                     </div>
+                    <Popover :uri="track?.uri" v-if="!isCurrentTrack(track?.uri)" />
                     <p class="text-sm text-white">{{ truncateText(track?.name, 20) }}</p>
                 </div>
             </div>

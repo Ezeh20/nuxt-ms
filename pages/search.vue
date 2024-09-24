@@ -21,6 +21,7 @@ const options = ['all', 'artist', 'playlist', 'track']
 const activeTab = ref('all');
 const data = ref({});
 const loading = ref(false)
+import Popover from '~/components/atomic/Popover.vue';
 
 const debouncedSearch = useDebounceFn(() => {
     loading.value = true;
@@ -115,7 +116,7 @@ const handFilter = (type) => {
                 <Heading tag="h2" size="lg" text="Tracks" />
                 <div class="g-lay" style="gap: 28px;">
                     <div v-for="(track, idx) in data?.value?.tracks?.items" :key="idx"
-                        class="bg-red-400 flex flex-col justify-between p-2 rounded-md h-[100px]"
+                        class="bg-red-400 flex flex-col justify-between p-2 rounded-md h-[120px]"
                         :style="{ backgroundColor: `hsl(${Math.random() * 360}, ${70 + Math.random() * 10}%, ${25 + Math.random() * 10}%)` }">
                         <div class="flex justify-between items-center">
                             <p class="text-white font-extrabold text-xl">{{ idx + 1 }}</p>
@@ -144,6 +145,7 @@ const handFilter = (type) => {
                                 </div>
                             </div>
                         </div>
+                        <Popover :uri="track?.uri" v-if="!isCurrentTrack(track?.uri)" />
                         <p class="text-sm text-white">{{ truncateText(track?.name, 20) }}</p>
                     </div>
                 </div>

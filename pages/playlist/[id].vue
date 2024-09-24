@@ -12,6 +12,7 @@ const { data, error, pending } = await useAsyncData('playlist', () => _getAuthRe
 import { formatTime } from '#imports';
 
 import { formatDate } from '~/utils/formatTime';
+import { noImage } from '~/assets/icons';
 
 const handleSetTrack = (trackUri) => {
     playerState.setTrack(trackUri)
@@ -40,7 +41,7 @@ const pause = async () => {
 
 const ade = ref(true);
 watchEffect(() => {
-    if (id === trackUri.value?.split(':')[2]) {
+    if (id === trackUri?.value?.split(':')[2]) {
         ade.value = true;
     } else {
         ade.value = false;
@@ -58,7 +59,7 @@ watchEffect(() => {
             <div :style="{ backgroundColor: `hsl(${Math.random() * 360}, ${50 + Math.random() * 0}%, ${30 + Math.random() * 0}%)` }"
                 class="h-[250px] w-full flex items-center relative">
                 <div class="flex items-center gap-4">
-                    <img :src="data?.images[0]?.url" alt="" class=" w-[250px] h-[250px]">
+                    <img :src="data?.images?.[0]?.url ?? noImage " alt="" class=" w-[250px] h-[250px]">
                     <div>
                         <p class="text-xl text-white">{{ data?.name }}</p>
                         <div class="flex items-center gap-4">

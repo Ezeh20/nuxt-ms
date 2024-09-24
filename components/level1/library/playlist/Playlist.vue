@@ -73,10 +73,8 @@ const createPlaylist = async () => {
     if (!token.value) {
         return;
     }
-
     create_Playlist.pending = true;
     create_Playlist.error = null;
-
     try {
         const response = await $fetch(`${useRuntimeConfig().public.SP_BASE_URL}users/${user?.value?.id}/playlists`, {
             method: 'POST',
@@ -104,6 +102,9 @@ const createPlaylist = async () => {
     }
 }
 
+watch(playlist, (newValue) => {
+  console.log('Playlist updated:', newValue);
+}, { deep: true });
 </script>
 
 <template>
@@ -131,15 +132,13 @@ const createPlaylist = async () => {
                             class="  w-full px-3 py-2 text-sm text-text-color border border-text-color/50 focus:outline-none rounded focus:border-text-color/100  resize-none h-24"></textarea>
                     </UFormGroup>
 
-                    <button type="submit"
-                        :disabled="create_Playlist.pending || !playlistName || !description"
-                        :class="[
-                            'w-full text-base py-2 px-4 rounded-md transition duration-300 ease-in-out',
-                            (create_Playlist.pending || !playlistName || !description) 
-                                ? 'bg-primary-color/30 text-white/50 cursor-not-allowed'
-                                : 'bg-primary-color/50 text-white/80 hover:bg-primary-color'
-                        ]">
-                        {{create_Playlist.pending ? "Please wait..." : "Create a new Playlist"}}
+                    <button type="submit" :disabled="create_Playlist.pending || !playlistName || !description" :class="[
+                        'w-full text-base py-2 px-4 rounded-md transition duration-300 ease-in-out',
+                        (create_Playlist.pending || !playlistName || !description)
+                            ? 'bg-primary-color/30 text-white/50 cursor-not-allowed'
+                            : 'bg-primary-color/50 text-white/80 hover:bg-primary-color'
+                    ]">
+                        {{ create_Playlist.pending ? "Please wait..." : "Create a new Playlist" }}
                     </button>
                 </form>
             </UCard>
@@ -159,10 +158,11 @@ const createPlaylist = async () => {
                 </div>
             </section>
             <section class="overflow-y-scroll h-[85vh]">
-                <button class="mt-2 mb-4 flex items-center gap-4 text-primary-color" @click="isOpen = true">Create new
-                    <Icon name="mdi:plus" class=" text-primary-color" />
-                </button>
+
                 <section v-if="activeTab === 0" class="flex flex-col gap-5 overflow-y-scroll">
+                    <button class=" flex items-center gap-4 text-primary-color" @click="isOpen = true">Create new
+                        <Icon name="mdi:plus" class=" text-primary-color" />
+                    </button>
                     <div v-if="playlist?.data?.items?.length > 0" v-for="playlist in playlist.data.items"
                         :key="playlist?.id">
                         <NuxtLink :to="`/playlist/${playlist?.id}`"

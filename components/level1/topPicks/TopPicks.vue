@@ -5,7 +5,7 @@ const userData = useUserStore()
 const playerState = usePlayerStore()
 const { loadingTracks, topTracks, player } = storeToRefs(userData)
 const { duration, playingState, trackUri } = storeToRefs(playerState)
-
+import Popover from '~/components/atomic/Popover.vue';
 import Heading from '~/components/atomic/Heading.vue';
 import truncateText from '~/utils/truncate';
 
@@ -46,6 +46,8 @@ const isCurrentTrack = (uri) => {
 watchEffect(() => {
     currentTrackUri.value = trackUri.value;
 });
+
+
 </script>
 
 
@@ -58,9 +60,9 @@ watchEffect(() => {
             <Heading tag="h2" size="md" text="Your Top Tracks" />
             <div class="g-lay">
                 <div v-for="(track, idx) in topTracks?.items" :key="idx"
-                    class="bg-red-400 flex flex-col justify-between p-2 rounded-md h-[100px]"
+                    class="bg-red-400 flex flex-col justify-between p-2 rounded-md h-[120px]"
                     :style="{ backgroundColor: `hsl(${Math.random() * 360}, ${70 + Math.random() * 10}%, ${25 + Math.random() * 10}%)` }">
-                    <div class="flex justify-between items-center">
+                    <div class="flex relative justify-between items-center">
                         <p class="text-white font-extrabold text-xl">{{ idx + 1 }}</p>
                         <div>
                             <div v-if="!isCurrentTrack(track?.uri)">
@@ -71,21 +73,22 @@ watchEffect(() => {
                             </div>
                             <div v-else>
                                 <button v-if="playingState" @click="pause" class="btn-circle"
-                                    style="width: 50px; height: 50px">
+                                    style="width: 40px; height:40px">
                                     <Icon name="mdi:pause" class="text-black w-[35px] h-[35px]" />
                                 </button>
                                 <div v-else>
                                     <button v-if="duration === 0" @click="handleSetTrack(track?.uri)" class="btn-circle"
-                                        style="width: 50px; height: 50px">
+                                        style="width:40px; height:40px">
                                         <Icon name="mdi:play" class="text-black w-[35px] h-[35px]" />
                                     </button>
-                                    <button v-else @click="play" class="btn-circle" style="width: 50px; height: 50px">
+                                    <button v-else @click="play" class="btn-circle" style="width:40px; height:40px">
                                         <Icon name="mdi:play" class="text-black w-[35px] h-[35px]" />
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <Popover :uri="track?.uri" v-if="!isCurrentTrack(track?.uri)" />
                     <p class="text-sm text-white">{{ truncateText(track?.name, 20) }}</p>
                 </div>
             </div>

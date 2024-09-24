@@ -2,8 +2,11 @@
 
 import PrimarySkeleton from '~/components/atomic/Skeletons/PrimarySkeleton.vue';
 import { useUserStore } from '~/stores/userStore';
+import { usePlayerStore } from '#imports';
 const userStore = useUserStore();
+const playerStore = usePlayerStore();
 const { token, user } = storeToRefs(userStore);
+const { trackUri } = toRefs(playerStore);
 import { reactive, ref } from 'vue';
 import { noImage } from '~/assets/icons';
 
@@ -105,6 +108,8 @@ const createPlaylist = async () => {
 watch(playlist, (newValue) => {
   console.log('Playlist updated:', newValue);
 }, { deep: true });
+
+const isPlayer = ref(trackUri)
 </script>
 
 <template>
@@ -157,8 +162,7 @@ watch(playlist, (newValue) => {
                         }}</button>
                 </div>
             </section>
-            <section class="overflow-y-scroll h-[85vh]">
-
+            <section :class="`overflow-y-scroll ${isPlayer ? 'h-[72vh]' : 'h-[80vh]'}`">
                 <section v-if="activeTab === 0" class="flex flex-col gap-5 overflow-y-scroll">
                     <button class=" flex items-center gap-4 text-primary-color" @click="isOpen = true">Create new
                         <Icon name="mdi:plus" class=" text-primary-color" />
@@ -215,6 +219,5 @@ watch(playlist, (newValue) => {
                 </section>
             </section>
         </section>
-
     </main>
 </template>

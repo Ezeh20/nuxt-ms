@@ -9,9 +9,12 @@ import Playlist from './playlist/Playlist.vue';
 import PrimarySkeleton from '~/components/atomic/Skeletons/PrimarySkeleton.vue';
 import Heading from '~/components/atomic/Heading.vue';
 
-
+const currentUrl = window.location.href;
 const handleLogin = async () => {
-  const res = await $fetch('/api/utils/getAuthLink');
+  const res = await $fetch('/api/utils/getAuthLink', {
+    method: 'POST',
+    body: { redirect_uri: currentUrl },
+  });
   window.location.href = res.spotifyAuthUrl;
 };
 const isActive = useCookie('active');
@@ -20,7 +23,7 @@ const blocks = [1, 2, 3]
 
 <template>
   <main class="flex flex-col  bg-background-color">
-    <Heading tag="h1" size="md" text="Your Library" class="p-4"/>
+    <Heading tag="h1" size="md" text="Your Library" class="p-4" />
     <section v-if="!isActive && !user" class="h-full">
       <button @click="handleLogin" class="flex items-center h-[100%] w-[100%] justify-center gap-2">
         <Icon name="mdi:login-variant" :class="`${styles.loginIcon}`" />

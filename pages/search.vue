@@ -22,10 +22,14 @@ const activeTab = ref('all');
 const data = ref({});
 const loading = ref(false)
 import Popover from '~/components/atomic/Popover.vue';
+import { getSP_Token } from '#imports';
 
-const debouncedSearch = useDebounceFn(() => {
+
+
+const debouncedSearch = useDebounceFn(async () => {
     loading.value = true;
-    useAsyncData("searchResults", () => _getAuthRequest_(`search?q=${query.value}&type=${searchType.value === null ? searchTypes.join(',') : searchType.value}`, token.value))
+    const tokenResponse = await getSP_Token();
+    useAsyncData("searchResults", () => _getAuthRequest_(`search?q=${query.value}&type=${searchType.value === null ? searchTypes.join(',') : searchType.value}`, tokenResponse?.token))
         .then(result => {
             data.value = result.data;
             loading.value = false;

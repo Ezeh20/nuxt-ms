@@ -15,7 +15,7 @@ const handleLogin = async () => {
     method: 'POST',
     body: { redirect_uri: currentUrl },
   });
-  window?.location.href = res.spotifyAuthUrl;
+  window.location.href = res.spotifyAuthUrl;
 };
 const isActive = useCookie('active');
 const blocks = [1, 2, 3]

@@ -1,13 +1,13 @@
 <script setup>
 import { useDebounceFn } from '@vueuse/core';
-const searchQuery = ref('');
-import { useSearch } from '~/stores/searchStore';
 import { useUserStore } from '#imports';
 import { storeToRefs } from 'pinia';
-const q = useSearch()
+
+import { useQueryStore } from '~/stores/queryStore';
+const q = useQueryStore()
+const { query } = storeToRefs(q)
 const userData = useUserStore()
-const { query } = storeToRefs(q);
-const { token, player } = storeToRefs(userData);
+const { player } = storeToRefs(userData);
 import { _getAuthRequest_ } from '#imports';
 import Heading from '~/components/atomic/Heading.vue';
 import Card from '~/components/card/Card.vue';
@@ -23,8 +23,6 @@ const data = ref({});
 const loading = ref(false)
 import Popover from '~/components/atomic/Popover.vue';
 import { getSP_Token } from '#imports';
-
-
 
 const debouncedSearch = useDebounceFn(async () => {
     loading.value = true;

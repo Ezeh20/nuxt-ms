@@ -2,20 +2,20 @@
 import styles from './NavBar.module.scss';
 import { useRoute } from 'vue-router';
 const router = useRoute();
-import { useSearch } from '~/stores/searchStore';
-import { storeToRefs } from 'pinia';
-const searchStore = useSearch()
-const { query } = storeToRefs(searchStore)
+import { useQueryStore } from '~/stores/queryStore';
+import { storeToRefs } from '#imports';
+const queryStore = useQueryStore()
+
 const updateQuery = (event) => {
-    searchStore.setQuery(event.target.value)
+    queryStore.setQuery(event.target.value)
 }
+
 const popoverOpen = ref(false);
 import { useUserStore } from '#imports';
 import { useAuth } from '~/composables/useAuth';
 const userStore = useUserStore()
 const { user } = storeToRefs(userStore)
 const isActive = useCookie('active')
-
 const { login, logout } = useAuth()
 
 
@@ -48,7 +48,8 @@ const handleLogout = async () => {
                     <UPopover v-model="popoverOpen" mode="hover"
                         :popper="{ placement: 'bottom-end', offsetDistance: 15 }">
                         <button class=" flex items-center justify-center w-[32px]  h-[32px] rounded-full bg-white">
-                            <p v-if="user || isActive" class="text-black text-xl font-bold">{{ user?.display_name.charAt(0) }}
+                            <p v-if="user || isActive" class="text-black text-xl font-bold">{{
+                                user?.display_name.charAt(0) }}
                             </p>
                             <Icon v-else name="uil:user" class="text-black text-2xl" />
                         </button>

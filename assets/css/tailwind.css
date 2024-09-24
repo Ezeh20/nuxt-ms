@@ -28,6 +28,11 @@ body {
     opacity: .9;
 } */
 
+input,textarea{
+    outline: none;
+    background-color: transparent;
+}
+
 @keyframes backgroundFlow {
     0% {
         background-position: 0 0;

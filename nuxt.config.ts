@@ -3,21 +3,14 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
   modules: [
-    '@pinia/nuxt',
-    '@nuxtjs/tailwindcss',
-    '@nuxtjs/google-fonts',
-    '@nuxt/icon',
-    'shadcn-nuxt',
-
+   '@pinia/nuxt',
+   '@nuxtjs/google-fonts',
+   '@nuxt/ui',
   ],
- shadcn: {
-    prefix: '',
-    componentDir: './components/ui'
-  },
   tailwindcss:{
     cssPath:"~/assets/css/tailwind.css",
     configPath: 'tailwind.config.js',
-    exposeConfig: false,
+    exposeConfig: true,
     injectPosition:0,
     viewer:true
   },

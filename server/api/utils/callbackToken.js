@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
 		body: new URLSearchParams({
 			grant_type: "authorization_code",
 			code: code,
-			redirect_uri: "https://echo-three-pi.vercel.app/",
+			redirect_uri: redirectUri,
 		}).toString(),
 	};
 

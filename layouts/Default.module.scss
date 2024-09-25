@@ -13,16 +13,13 @@
 	}
 }
 
-.rightBarActive{
-
+.closeLeft{
     @media screen and (min-width: 1024px) {
         grid-template-columns: 0fr 6.5fr 1.75fr;
 	}
 }
 
 .closeRight{
-  
-
     @media screen and (min-width: 1024px) {
         grid-template-columns: 1.75fr 6.5fr 0fr;
 	}

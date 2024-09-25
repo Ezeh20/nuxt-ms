@@ -12,7 +12,7 @@ const skeletons = Array.from({ length: 20 }, (_, i) => i + 1)
 </script>
 
 <template>
-    <main>
+    <main class="px-2">
         <section v-if="categories.data.length === 0">
             <div class="grid gap-4 auto-rows-auto" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr))">
                 <PrimarySkeleton v-for="skeleton in skeletons" :key="skeleton" class="h-[170px] w-full" />

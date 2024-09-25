@@ -209,16 +209,16 @@ watchEffect(async () => {
 </script>
 
 <template>
-    <main class="flex w-full justify-between items-center  gap-4 px-2">
-        <div class="w-[20%] flex items-center gap-[8px]">
+    <main class="flex w-full  justify-between items-center  gap-2 px-2">
+        <div class="hidden w-[0%] xl:w-[20%] xl:flex  items-center gap-[8px]">
             <img v-if="currentTrack?.album?.images[0]?.url" :src="currentTrack?.album?.images[0]?.url ?? noImage"
-                alt="img" class="w-[50px] h-[50px] rounded-[100%]">
-            <div>
+                alt="img" class="  w-[50px] h-[50px] rounded-[100%]">
+            <div class="hidden sm:flex flex-col">
                 <p class="text-sm font-semibold">{{ truncateText(currentTrack?.name, 20) }}</p>
                 <p class="text-xs font-light">{{ truncateText(currentTrack?.artists[0]?.name, 20) }}</p>
             </div>
         </div>
-        <div class="flex flex-col gap-2 justify-center items-center w-[60%]">
+        <div class="flex flex-col gap-2 justify-center items-center w-[100%] xl:w-[50%]">
             <section class="flex items-center  gap-5">
                 <button :disabled="!hasPrevious" @click="previousTrack"
                     :class="['btn-circle-alt', { 'opacity-50 cursor-not-allowed': !hasPrevious }]">
@@ -250,7 +250,7 @@ watchEffect(async () => {
                 <p class="text-xs">{{ formatTime(duration) }}</p>
             </div>
         </div>
-        <div class="w-[20%]">
+        <div class="w-[0%] xl:w-[20%]">
             <p></p>
         </div>
     </main>

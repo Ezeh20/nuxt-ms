@@ -34,7 +34,7 @@ const { width } = useWindowSize();
       <Heading tag="h1" size="md" text="Your Library" class="p-4" />
     </div>
     <section v-if="!isActive && !user" class="h-full">
-      <button @click="login" class="flex items-center h-[100%] w-[100%] justify-center gap-2">
+      <button @click="login" class="flex items-center h-[100%] w-[100%] pb-[50px] justify-center gap-2">
         <Icon name="mdi:login-variant" :class="`${styles.loginIcon}`" />
         <Text size="lg" text="Login" />
       </button>

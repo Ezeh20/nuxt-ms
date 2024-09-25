@@ -23,17 +23,9 @@ const { width } = useWindowSize();
 
 
 <template>
-  <section :class="`${styles.main} grid`" :style="{
-        'grid-template-columns': width < 1024
-            ? '1fr'
-            : leftBarActive && rightBarActive
-                ? '1.75fr 6.5fr 1.75fr'
-                : !leftBarActive && rightBarActive
-                    ? '0fr 6.5fr 1.75fr'
-                    : leftBarActive && !rightBarActive
-                        ? '1.75fr 6.5fr 0fr'
-                        : '0fr 6.5fr 0fr'
-    }">
+    <section 
+        :class="`${styles.main} ${(leftBarActive && rightBarActive) && styles.default}
+         ${(!leftBarActive && rightBarActive) && styles.closeLeft} ${(leftBarActive && !rightBarActive) && styles.closeRight} grid`">
         <SideBar class="sticky top-0 h-screen" />
         <section class="bg-background-color w-full flex flex-col h-screen">
             <NavBar class="sticky top-0 z-10" />

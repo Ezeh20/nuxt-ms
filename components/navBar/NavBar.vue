@@ -31,7 +31,7 @@ const handleToggle = () => {
         <header :class="`${styles.header} flex items-center justify-between z-50 px-2 h-[70px] bg-black`">
             <nav class="flex items-center  justify-between w-full">
                 <div class="flex items-center gap-2 w-[100%] ">
-                    <div class="flex items-center">
+                    <div :class="`items-center ${styles.mobile}`">
                         <NuxtLink to="/" class="flex items-end  ">
                             <Icon name="mdi:speaker" class="text-primary-color w-[40px] h-[40px]" />
                         </NuxtLink>

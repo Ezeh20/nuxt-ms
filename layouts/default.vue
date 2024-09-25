@@ -23,9 +23,10 @@ const { width } = useWindowSize();
 
 
 <template>
-    <section 
+    <section
         :class="`${styles.main} ${(leftBarActive && rightBarActive) && styles.default}
-         ${(!leftBarActive && rightBarActive) && styles.closeLeft} ${(leftBarActive && !rightBarActive) && styles.closeRight} grid`">
+         ${(!leftBarActive && rightBarActive) && styles.closeLeft} ${(leftBarActive && !rightBarActive) && styles.closeRight} 
+         ${(!leftBarActive && !rightBarActive) && styles.closeBoth} grid`">
         <SideBar class="sticky top-0 h-screen" />
         <section class="bg-background-color w-full flex flex-col h-screen">
             <NavBar class="sticky top-0 z-10" />

@@ -41,4 +41,5 @@ const { width } = useWindowSize();
         <Player v-if="isActive && user && trackUri" class=" fixed bottom-0 w-full bg-black h-[100px] z-40" />
     </section>
     <UNotifications />
+    <UModals />
 </template>

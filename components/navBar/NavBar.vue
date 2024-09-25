@@ -22,8 +22,6 @@ const { login, logout } = useAuth()
 const handleToggle = () => {
     popoverOpen.value = false
 }
-
-
 </script>
 
 <template>

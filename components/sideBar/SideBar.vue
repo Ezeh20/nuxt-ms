@@ -25,7 +25,7 @@ const {width} = useWindowSize()
 
 
 <template>
-    <aside :class="`${`${styles.main}`} flex flex-col justify-between pt-4 bg-background-color ${width < 1024 ? 'hidden' : ''}`">
+    <aside :class="`${`${styles.main}`}  flex-col justify-between  pt-4 bg-background-color`">
         <nav :class="`flex flex-col ${width > 1024 ? 'gap-[3rem]' : ''}`">
             <div class="flex flex-col">
                 <NuxtLink to="/" class="flex items-end ml-4 mb-4 ">

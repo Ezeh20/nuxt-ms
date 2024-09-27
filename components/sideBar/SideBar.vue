@@ -32,9 +32,9 @@ const {width} = useWindowSize()
                     <Icon name="mdi:speaker" class="text-primary-color w-[40px] h-[40px]" />
                     <p class=" text-primary-color font-semibold">Echo</p>
                 </NuxtLink>
-                <Icon v-if="width >= 1024" name="mdi:library"
+                <!-- <Icon v-if="width >= 1024" name="mdi:library"
         :class="`cursor-pointer top-[15px] text-[80px] text-text-color transform ${!leftBarActive ? 'rotate-[-90deg]' : 'rotate-[90deg]'} self-end`"
-        style="width:25px; height:25px" @click="toggleOpen" />
+        style="width:25px; height:25px" @click="toggleOpen" /> -->
             </div>
             <ul v-for="item in renderSideBar" :key="item.id" class="flex flex-col gap-4">
                 <h2 class="font-3rd-font text-sm ml-5 opacity-50">{{ item.title }}</h2>

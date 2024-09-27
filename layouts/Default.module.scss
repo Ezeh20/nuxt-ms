@@ -1,32 +1,33 @@
 .main {
 	display: grid;
 	grid-template-columns: 1fr;
+	gap: 12px;
 
 	@media screen and (min-width: 1024px) {
-		grid-template-columns: 1.75fr 6.5fr 1.75fr;
+		grid-template-columns: 1fr 7.25fr 1.75fr;
 	}
 }
 
 .default{
     @media screen and (min-width: 1024px) {
-		grid-template-columns: 1.75fr 6.5fr 1.75fr;
+		grid-template-columns: 1fr 7.25fr 1.75fr;
 	}
 }
 
 .closeLeft{
     @media screen and (min-width: 1024px) {
-        grid-template-columns: 0fr 6.5fr 1.75fr;
+        grid-template-columns: 1fr 7.25fr 1.75fr;
 	}
 }
 
 .closeRight{
     @media screen and (min-width: 1024px) {
-        grid-template-columns: 1.75fr 6.5fr 0fr;
+        grid-template-columns: 1fr 7.25fr 0fr;
 	}
 }
 
 .closeBoth{
     @media screen and (min-width: 1024px) {
-        grid-template-columns: 0fr 6.5fr 0fr;
+        grid-template-columns: 1fr 7.25fr 0fr;
 	}
 }

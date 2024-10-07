@@ -178,10 +178,12 @@ const toggleOpen = () => {
                         }}</button>
                 </div>
             </section>
-            <section :class="`overflow-y-scroll ${isPlayer ? 'h-[72vh]' : 'h-[80vh]'} ${!rightBarActive && 'h-[61.9vh]'}`">
+            <section
+                :class="`overflow-y-scroll ${isPlayer ? 'h-[72vh]' : 'h-[80vh]'} ${!rightBarActive && 'h-[61.9vh]'}`">
                 <section v-if="activeTab === 0" class="flex flex-col gap-5 overflow-y-scroll">
                     <button class=" flex items-center gap-4 text-primary-color" @click="isOpen = true">Create
                         <Icon name="mdi:plus" class=" text-primary-color" />
+                        <p>{{ playlist.pending }}</p>
                     </button>
                     <div v-if="playlist?.data?.items?.length > 0" v-for="playlist in playlist.data.items"
                         :key="playlist?.id">
@@ -205,12 +207,12 @@ const toggleOpen = () => {
                         <p>you have no playlists</p>
                     </div>
                 </section>
-
                 <section v-if="activeTab === 1" class="flex flex-col gap-5">
                     <div v-if="albums?.data?.items?.length > 0" v-for="album in albums.data.items" :key="album?.id">
                         <NuxtLink class="flex flex-col gap-2 text-text-color/90 text-xs cursor-pointer  h-full">
-                            <img v-if="!rightBarActive" :src="album?.album?.images?.[0]?.url ?? noImage" alt="album image"
-                            class="h-[100px] w-[100px] object-cover object-top opacity-70 hover:opacity-100 transition-all duration-300 rounded-md" />
+                            <img v-if="!rightBarActive" :src="album?.album?.images?.[0]?.url ?? noImage"
+                                alt="album image"
+                                class="h-[100px] w-[100px] object-cover object-top opacity-70 hover:opacity-100 transition-all duration-300 rounded-md" />
                             <div v-else>
                                 <img :src="album?.album?.images?.[0]?.url ?? noImage" alt="album image"
                                     class="h-[150px] w-full object-cover object-top opacity-70 hover:opacity-100 transition-all duration-300 rounded-t-lg" />
@@ -230,11 +232,12 @@ const toggleOpen = () => {
                 <section v-if="activeTab === 2" class="flex flex-col gap-5">
                     <div v-if="artists?.data?.artists?.items?.length > 0" v-for="artist in artists.data.artists.items"
                         :key="artist?.id">
-                        <NuxtLink :class="`grid gap-4 text-text-color/90 ${!rightBarActive ? 'text-xs' : 'text-base'} items-center cursor-pointer h-full`">
+                        <NuxtLink
+                            :class="`grid gap-4 text-text-color/90 ${!rightBarActive ? 'text-xs' : 'text-base'} items-center cursor-pointer h-full`">
                             <img :src="artist?.images?.[0]?.url" alt="artist image"
                                 class="h-[100%] w-[100%] opacity-70 hover:opacity-100 transition-all duration-300 rounded-full " />
                             <div class="flex flex-col gap-1 justify-between text-center">
-                                <p>{{ truncateText(artist?.name, 15)}}</p>
+                                <p>{{ truncateText(artist?.name, 15) }}</p>
                             </div>
                         </NuxtLink>
                     </div>

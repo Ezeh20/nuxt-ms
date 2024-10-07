@@ -57,7 +57,7 @@ const useUserStore = defineStore("user", {
 			}
 		},
 		async setRecTracks() {
-			this.loadingTracks = true;
+			this.recLoading = true;
 			this.tracksError = false;
 			try {
 				await _getAuthRequest_(
@@ -70,7 +70,6 @@ const useUserStore = defineStore("user", {
 						`recommendations?limit=5&seed_tracks=${ids.join(",")}`,
 						this.token
 					);
-					console.log(response?.tracks);
 					this.recTracks = response.tracks;
 					this.recLoading = false
 				});

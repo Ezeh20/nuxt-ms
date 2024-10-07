@@ -8,6 +8,8 @@ const { duration, playingState, trackUri } = storeToRefs(playerState)
 import Popover from '~/components/atomic/Popover.vue';
 import Heading from '~/components/atomic/Heading.vue';
 import truncateText from '~/utils/truncate';
+import PrimarySkeleton from '~/components/atomic/Skeletons/PrimarySkeleton.vue';
+const blocks = [1, 2, 3, 4, 5]
 
 if (!topTracks?.value?.length) {
     userData.setTopTracks()
@@ -46,17 +48,15 @@ const isCurrentTrack = (uri) => {
 watchEffect(() => {
     currentTrackUri.value = trackUri.value;
 });
-
-
 </script>
 
 
 <template>
     <main>
-        <section v-if="loadingTracks && !topTracks">
-            loading
+        <section v-if="loadingTracks && !topTracks" class="g-lay mb-6">
+            <PrimarySkeleton v-for="block in blocks" :key="block" class="h-[120px] w-full" />
         </section>
-        <section>
+        <section v-else>
             <Heading tag="h2" size="md" text="Your Top Tracks" />
             <div class="g-lay">
                 <div v-for="(track, idx) in topTracks?.items" :key="idx"

@@ -40,7 +40,7 @@ const { width } = useWindowSize();
       </button>
     </section>
     <main v-else :class="`${`${styles.main}`} p-5 bg-background-color`">
-      <div v-if="loading && !user" class="flex flex-col gap-5">
+      <div v-if="loading && !user" class="flex flex-col gap-5 h-screen">
         <PrimarySkeleton v-for="block in blocks" :key="block" class="h-full w-full" />
       </div>
       <section v-if="user">

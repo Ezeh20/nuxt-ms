@@ -51,10 +51,6 @@ watch(searchType, () => {
 });
 
 
-watch(data, (newData) => {
-    console.log(newData, 'result');
-}, { deep: true });
-
 const handleSetTrack = (trackUri) => {
     playerState.setTrack(trackUri)
 }

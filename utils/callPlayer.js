@@ -6,7 +6,6 @@ const { player, token } = storeToRefs(userStore);
 
 export const callTrack = async () => {
     if (!userStore.deviceId) {
-        console.error('Device ID is not available');
         return;
     }
 
@@ -25,7 +24,6 @@ export const callTrack = async () => {
         });
 
         if (!response.ok) {
-            console.error('Failed to start playback:', response.statusText);
             return;
         }
 
@@ -42,6 +40,6 @@ export const callTrack = async () => {
         }, 1000);
 
     } catch (error) {
-        console.error('Error playing track:', error);
+        // console.error('Error playing track:', error);
     }
 };

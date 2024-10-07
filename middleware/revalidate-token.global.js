@@ -17,7 +17,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 						cookie: event.node.req.headers.cookie,
 					},
 				});
-				console.log("Token refreshed and cookies set", res);
 				setCookie(event, "spa_ac_ak", res.access_token, {
 					httpOnly: true,
 					secure: true,

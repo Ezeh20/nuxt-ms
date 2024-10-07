@@ -11,7 +11,6 @@ const { duration, playingState, trackUri } = storeToRefs(playerState)
 
 import { getSP_Token } from '#imports';
 const tokenResponse = await getSP_Token();
-console.log(tokenResponse, 'opo');
 const { data, error, pending } = await useAsyncData('playlist', () => _getAuthRequest_(`playlists/${id}`, tokenResponse?.token))
 import { formatTime } from '#imports';
 

@@ -31,6 +31,9 @@ export default defineNuxtConfig({
     class: 'icon',
     mode:"css"
   },
+  colorMode:{
+    preference: 'light'
+   },
   runtimeConfig:{
     SP_CLIENT_ID:process.env.SP_CLIENT_ID,
     SP_CLIENT_SECRET:process.env.SP_CLIENT_SECRET,

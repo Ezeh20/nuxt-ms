@@ -3,13 +3,15 @@
 import { storeToRefs } from '#imports';
 import { useUserStore } from '#imports';
 const userData = useUserStore()
-const { recTracks, player } = storeToRefs(userData)
+const { recTracks, player, recLoading } = storeToRefs(userData)
 import truncateText from '~/utils/truncate';
 import Heading from '~/components/atomic/Heading.vue';
 import { usePlayerStore } from '#imports';
 const playerState = usePlayerStore()
 const { duration, playingState, trackUri } = storeToRefs(playerState)
 import Popover from '~/components/atomic/Popover.vue';
+import PrimarySkeleton from '~/components/atomic/Skeletons/PrimarySkeleton.vue';
+const blocks = [1, 2, 3, 4, 5]
 
 if (!recTracks?.value?.length) {
     userData.setRecTracks()
@@ -52,7 +54,10 @@ watchEffect(() => {
 
 <template>
     <main>
-        <section>
+        <section v-if="recLoading && !recTracks" class="g-lay mb-6">
+            <PrimarySkeleton v-for="block in blocks" :key="block" class="h-[120px] w-full" />
+        </section>
+        <section v-else>
             <Heading tag="h2" size="md" text="Recommended for you" />
             <div class="g-lay">
                 <div v-for="(track, idx) in recTracks" :key="idx"

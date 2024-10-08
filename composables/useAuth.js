@@ -1,29 +1,43 @@
 import { useUserStore } from "~/stores/userStore";
+import { ref } from 'vue';
 
 export function useAuth() {
 	const userStore = useUserStore();
 	const currentLocation = window?.location.origin + "/";
+	const loading = ref(false);
 
 	const login = async () => {
-		const res = await $fetch("/api/utils/getAuthLink", {
-			method: "POST",
-			body: { path: currentLocation },
-		});
-		window.location.href = res.spotifyAuthUrl;
+		loading.value = true;
+		try {
+			const res = await $fetch("/api/utils/getAuthLink", {
+				method: "POST",
+				body: { path: currentLocation },
+			});
+			window.location.href = res.spotifyAuthUrl;
+		} catch (error) {
+			console.error("Login error:", error);
+		} finally {
+			loading.value = false;
+		}
 	};
 
 	const logout = async () => {
-		await useFetch("/api/user/logout");
-		useRouter()
-			.push("/")
-			.then(() => {
-				useRouter().go(0);
-				userStore.$reset();
-			});
+		loading.value = true;
+		try {
+			await useFetch("/api/user/logout");
+			await useRouter().push("/");
+			useRouter().go(0);
+			userStore.$reset();
+		} catch (error) {
+			console.error("Logout error:", error);
+		} finally {
+			loading.value = false;
+		}
 	};
 
 	return {
 		login,
 		logout,
+		loading,
 	};
 }

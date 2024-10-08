@@ -7,7 +7,7 @@ import { useQueryStore } from '~/stores/queryStore';
 const q = useQueryStore()
 const { query } = storeToRefs(q)
 const userData = useUserStore()
-const { player } = storeToRefs(userData);
+const { player, user } = storeToRefs(userData);
 import { _getAuthRequest_ } from '#imports';
 import Heading from '~/components/atomic/Heading.vue';
 import Card from '~/components/card/Card.vue';
@@ -23,7 +23,12 @@ const data = ref({});
 const loading = ref(false)
 import Popover from '~/components/atomic/Popover.vue';
 import { getSP_Token } from '#imports';
+import ModalContent from '~/composables/ModalContent.vue';
+import { useModal } from '~/composables/useModal';
+import LoginPrompt from '~/components/popups/LoginPrompt.vue';
 
+
+const { isOpen, toggleModal } = useModal();
 const debouncedSearch = useDebounceFn(async () => {
     loading.value = true;
     const tokenResponse = await getSP_Token();
@@ -52,7 +57,11 @@ watch(searchType, () => {
 
 
 const handleSetTrack = (trackUri) => {
-    playerState.setTrack(trackUri)
+    if (user.value) {
+        playerState.setTrack(trackUri)
+    } else {
+        toggleModal()
+    }
 }
 
 const play = async () => {
@@ -102,7 +111,8 @@ const handFilter = (type) => {
     <main class="relative pb-10">
         <section class="px-4  flex flex-col gap-10">
             <Transition name="fade" mode="out-in" class="absolute">
-                <div v-if="loading" class="w-full h-5 bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 animate-pulse"></div>
+                <div v-if="loading"
+                    class="w-full h-5 bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 animate-pulse"></div>
             </Transition>
             <section v-if="Object.keys(data).length > 0" class=" bg-background-color flex gap-2 mb-2 mt-6">
                 <div v-for="option in options" :key="option">
@@ -177,5 +187,8 @@ const handFilter = (type) => {
             </section>
 
         </section>
+        <ModalContent :is-open="isOpen" @update:isOpen="toggleModal" label="Log in" subLabel="You are not logged in">
+            <LoginPrompt />
+        </ModalContent>
     </main>
 </template>

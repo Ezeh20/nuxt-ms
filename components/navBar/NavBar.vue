@@ -33,8 +33,8 @@ const handleToggle = () => {
                         <NuxtLink to="/" class="flex items-end  ">
                             <Icon name="mdi:speaker" class="text-primary-color w-[40px] h-[40px]" />
                         </NuxtLink>
-                        <UPopover v-model="popoverOpen" mode="hover"
-                            :popper="{ placement: 'bottom-end', offsetDistance: 15 }">
+                        <UPopover v-model="popoverOpen" 
+                            :popper="{ placement: 'bottom-end', offsetDistance: 18 }">
                             <button class=" flex items-center justify-center w-[32px]  h-[32px] rounded-full bg-white">
 
                                 <Icon name="mdi:menu" class="text-black text-2xl" />
@@ -67,8 +67,8 @@ const handleToggle = () => {
                     </div>
                 </div>
                 <div class="flex items-center gap-2">
-                    <UPopover v-model="popoverOpen" mode="hover"
-                        :popper="{ placement: 'bottom-end', offsetDistance: 15 }">
+                    <UPopover v-model="popoverOpen" 
+                        :popper="{ placement: 'bottom-end', offsetDistance: 18 }">
                         <button class=" flex items-center justify-center w-[32px]  h-[32px] rounded-full bg-white">
                             <p v-if="user || isActive" class="text-black text-xl font-bold">{{
                                 user?.display_name.charAt(0) }}

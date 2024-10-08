@@ -10,10 +10,9 @@ const { player } = storeToRefs(userData)
 const { duration, playingState, trackUri } = storeToRefs(playerState)
 import { getSP_Token } from '#imports';
 const tokenResponse = await getSP_Token();
-const { data, error, pending } = await useAsyncData('playlist', () => _getAuthRequest_(`playlists/${id}`, tokenResponse?.token))
+const { data, error, pending } = await useAsyncData('playlist', () => _getAuthRequest_(`albums/${id}`, tokenResponse?.token))
 import { formatTime } from '#imports';
 import { useModal } from '~/composables/useModal';
-import { formatDate } from '~/utils/formatTime';
 import { noImage } from '~/assets/icons';
 import ModalContent from '~/composables/ModalContent.vue';
 import LoginPrompt from '~/components/popups/LoginPrompt.vue';
@@ -61,12 +60,12 @@ watchEffect(() => {
 const currentTrack = ref(null);
 
 const handleTrackPlay = (track) => {
-    if (currentTrack.value === track.track.uri && playingState.value) {
+    if (currentTrack.value === track.uri && playingState.value) {
         pause();
     } else {
-        handleSetTrack(track.track.uri);
+        handleSetTrack(track.uri);
         play();
-        currentTrack.value = track.track.uri;
+        currentTrack.value = track.uri;
     }
 };
 </script>
@@ -83,23 +82,25 @@ const handleTrackPlay = (track) => {
                     <div>
                         <p class="text-xl text-white">{{ data?.name }}</p>
                         <div class="flex items-center gap-4">
-                            <p class="text-sm">By {{ data?.owner?.display_name }}</p>
+                            <p class="text-sm">By {{ data?.artists[0]?.name}}</p>
                         </div>
                     </div>
                 </div>
-                <!-- <div v-if="!ade" class="flex gap-4 items-center">
+                <div
+                    class="absolute bottom-0 bg-white/10 backdrop-blur-[2px]  w-full flex gap-4 items-center  px-2 h-[80px] border border-white/0">
+                    <!-- <div v-if="!ade" class="flex gap-4 items-center">
                         <button @click="handleSetTrack(data?.uri)" class="btn-circle" style="width: 50px; height: 50px">
                             <Icon name="mdi:play" class="text-black w-[35px] h-[35px]" />
                         </button>
                         <p class="font-bold text-white">{{ data?.tracks?.total }} {{ data?.tracks?.total > 1 ?
                             "tracks" :
                             "track" }}</p>
-                    </div>
-                    <div v-else class="flex gap-4 items-center">
-                        <button v-if="playingState" @click="pause" class="btn-circle" style="width: 50px; height: 50px">
+                    </div> -->
+                    <div  class="flex gap-4 items-center">
+                        <!-- <button v-if="playingState" @click="pause" class="btn-circle" style="width: 50px; height: 50px">
                             <Icon name="mdi:pause" class="text-black w-[35px] h-[35px]" />
-                        </button>
-                        <div v-else>
+                        </button> -->
+                        <!-- <div v-else>
                             <button v-if="duration === 0" @click="handleSetTrack(data?.uri)" class="btn-circle"
                                 style="width: 50px; height: 50px">
                                 <Icon name="mdi:play" class="text-black w-[35px] h-[35px]" />
@@ -108,9 +109,6 @@ const handleTrackPlay = (track) => {
                                 <Icon name="mdi:play" class="text-black w-[35px] h-[35px]" />
                             </button>
                         </div> -->
-                <div
-                    class="absolute bottom-0 bg-white/10 backdrop-blur-[2px]  w-full flex gap-4 items-center  px-2 h-[80px] border border-white/0">
-                    <div class="flex gap-4 items-center">
                         <div>
                             <p class="font-bold text-white">{{ data?.tracks?.total }} {{ data?.tracks?.total > 1 ?
                                 "tracks" :
@@ -123,35 +121,35 @@ const handleTrackPlay = (track) => {
                 <table class="min-w-full table-auto border-collapse ">
                     <thead>
                         <tr class="">
-                            <th class="px-4 py-2 text-left">#</th>
-                            <th class="px-4 py-2 text-left">Track Name</th>
-                            <th class="px-4 py-2 text-left">Added Date</th>
-                            <th class="px-4 py-2 text-left">Duration</th>
-                            <th class="px-4 py-2 text-left"></th>
+                            <th class="px-4 py-2  text-left">#</th>
+                            <th class="px-4 py-2  text-left">Track Name</th>
+                            <th class="px-4 py-2  text-left">Duration</th>
+                            <th class="px-4 py-2  text-left"></th>
                         </tr>
                     </thead>
                     <tbody class="text-sm">
-                        <tr v-for="(track, idx) in data?.tracks?.items" :key="track.track.id" :class="{
-                            'bg-gray-800/50 ': (currentTrack === track.track.uri && playingState) || (!playingState && idx === 0),
-                            'hover:bg-gray-800/50': (currentTrack !== track.track.uri || !playingState) && idx !== 0
-                        }" class="group cursor-pointer" @click="handleTrackPlay(track)">
-                            <td class="px-4 py-4">
-                                <span v-if="currentTrack === track.track.uri && playingState" class="text-green-500">
+                        <tr v-for="(track, idx) in data?.tracks?.items" :key="track.id" 
+                            :class="{
+                                'bg-gray-800/50 ': (currentTrack === track.uri && playingState) || (!playingState && idx === 0),
+                                'hover:bg-gray-800/50': (currentTrack !== track.uri || !playingState) && idx !== 0
+                            }"
+                            class="group cursor-pointer" @click="handleTrackPlay(track)">
+                            <td class="p-4">
+                                <span v-if="currentTrack === track.uri && playingState" class="text-green-500">
                                     <Icon name="mdi:music-note" class="w-4 h-4 text-primary-color" />
                                 </span>
                                 <span v-else>{{ idx + 1 }}</span>
                             </td>
-                            <td class="px-4 py-4">{{ track?.track?.name }}</td>
-                            <td class="px-4 py-4">{{ formatDate(track?.added_at) }}</td>
-                            <td class="px-4 py-4">{{ formatTime(track?.track?.duration_ms) }}</td>
-                            <td class="px-4 py-4">
-                                <button @click="handleTrackPlay(track)" :class="{
-                                    'opacity-0 group-hover:opacity-100': currentTrack !== track.track.uri || !playingState,
-                                    'opacity-100': (currentTrack === track.track.uri && playingState) || (!playingState && idx === 0)
-                                }" class="transition-opacity">
-                                    <Icon
-                                        :name="currentTrack === track.track.uri && playingState ? 'mdi:pause' : 'mdi:play'"
-                                        class="w-6 h-6" />
+                            <td class="p-4">{{ track?.name }}</td>
+                            <td class="p-4">{{ formatTime(track?.duration_ms) }}</td>
+                            <td class="p-4">
+                                <button @click="handleTrackPlay(track)" 
+                                    :class="{
+                                        'opacity-0 group-hover:opacity-100': currentTrack !== track.uri || !playingState,
+                                        'opacity-100': (currentTrack === track.uri && playingState) || (!playingState && idx === 0)
+                                    }"
+                                    class="transition-opacity">
+                                    <Icon :name="currentTrack === track.uri && playingState ? 'mdi:pause' : 'mdi:play'" class="w-6 h-6" />
                                 </button>
                             </td>
                         </tr>
